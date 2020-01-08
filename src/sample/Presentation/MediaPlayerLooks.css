@@ -46,7 +46,7 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
-slider{
+#slider{
     -fx-control-inner-background: palegreen;
     -fx-border-color: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);
     -fx-progress-color-color: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);
