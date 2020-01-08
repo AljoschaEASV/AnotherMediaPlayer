@@ -26,7 +26,7 @@ public class Main extends Application {
     }
 
     public static void preloader() {
-        File[] videos = new File("src/sample/videos/").listFiles();
+        File[] videos = new File("src/sample/media/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
 
         //adding existing videos that are missing inside database to the database
@@ -51,17 +51,23 @@ public class Main extends Application {
         String select = "";
         boolean found;
 
+        System.out.println("writing titles...");
         while(!select.equals("|ND|")){
             select=DB.getData();
             if(!select.equals("|ND|"))titles.add(select);
         }
 
         for(String title : titles){
+            System.out.println("searching for " + title + " in mediafolder...");
             found=false;
             for(File file : videos){
-                if(title.equals(file.getName()))found=true;
+                if(title.equals(file.getName())){
+                    found=true;
+                    System.out.println(title + " has been found and database entry will not be deleted");
+                }
             }
             if(!found){
+                System.out.println(title + " has NOT been found and is now being deleted from all tables...");
                 DB.deleteSQL("delete from tblVideos where Title='" + title + "'");
                 DB.deleteSQL("delete from tblVideoOrder where Video='" + title + "'");
             }
