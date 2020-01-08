@@ -7,19 +7,40 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+/**
+ * The type Controller second.
+ */
 public class ControllerSecond {
-    // Tableview instances
+    /**
+     * The Tb data.
+     */
+// Tableview instances
     @FXML
-    TableView<Search> tbData, tbData2;
+    TableView<Search> tbData, /**
+     * The Tb data 2.
+     */
+    tbData2;
+    /**
+     * The Title.
+     */
     @FXML
     TableColumn<Search, String> title;
 
+    /**
+     * The Category.
+     */
     @FXML
     TableColumn<Search, String> category;
 
+    /**
+     * The Title 2.
+     */
     @FXML
     TableColumn<Search, String> title2;
 
+    /**
+     * The Category 2.
+     */
     @FXML
     TableColumn<Search, String> category2;
 

@@ -1,53 +1,68 @@
 package sample;
 
 import com.jfoenix.controls.JFXSlider;
-import com.sun.org.apache.xml.internal.security.Init;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
-
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
-import com.jfoenix.controls.JFXSlider;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.DoubleProperty;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Slider;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-import javafx.stage.FileChooser;
 
-import java.awt.event.ActionEvent;
-import java.io.File;
-import java.net.URL;
-import java.util.ResourceBundle;
-
+/**
+ * The Media Player Controller.
+ */
 public class Controller implements Initializable {
 
-    private Button button;
+    /**
+     * The Media viewer.
+     */
+    @FXML
+        private MediaView mediaViewer;
+    /**
+     * The Mp.
+     */
+    private MediaPlayer mp;
+    /**
+     * The Mv.
+     */
+    private MediaView mv;
+    /**
+     * The Slider.
+     */
+    @FXML
+        private JFXSlider slider;
+    /**
+     * The Vid scroller.
+     */
+    @FXML
+        private Slider vidScroller;
+    /**
+     * The File path.
+     */
+    private String filePath;
 
     /**
      * This method is gonna make a new window
-     * @param event
+     *
+     * @param event the event
      */
     public void openNewWIndow(javafx.event.ActionEvent event) {
 
@@ -66,33 +81,14 @@ public class Controller implements Initializable {
     {
         System.out.println("Can't load the window");
     }
-
-
-
     }
 
-
-
-
-
-
-        @FXML
-        private MediaView mediaViewer;
-
-        private MediaPlayer mp;
-        private MediaView mv;
-        @FXML
-        private JFXSlider slider;
-        @FXML
-        private Slider videoSlide;
-
-
-        private String filePath;
-
-        /**
-         *todo the actual Project has to have the filePath from the Database / Playlists.
-         */
-        @FXML
+    /**
+     * todo the actual Project has to have the filePath from the Database / Playlists.
+     *
+     * @param actionEvent the action event
+     */
+    @FXML
         public void handleButtonAction(javafx.event.ActionEvent actionEvent) {
             try {
                 FileChooser fc = new FileChooser();
@@ -130,6 +126,20 @@ public class Controller implements Initializable {
                         }
                     });
 
+                    //Set the Slider vidScroller to the MediaPlayer
+                  mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+                      @Override
+                      public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                          vidScroller.setValue(newValue.toSeconds());
+                      }
+                  });
+                  vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                      @Override
+                      public void handle(MouseEvent event) {
+                          mp.seek(Duration.seconds(vidScroller.getValue()));
+                      }
+                  });
+
 
                     mp.play();
 
@@ -137,36 +147,72 @@ public class Controller implements Initializable {
 
             }
             catch(Exception e) {
+                System.out.println(" ");
 
             }
         }
 
-        @FXML
+    /**
+     * Pause video.
+     *
+     * @param event the event
+     */
+    @FXML
         private void pauseVideo(javafx.event.ActionEvent event){
             mp.pause();
 
         }
-        @FXML
+
+    /**
+     * Play video.
+     *
+     * @param event the event
+     */
+    @FXML
         private void playVideo(javafx.event.ActionEvent event){
             mp.play();
 
         }
-        @FXML
+
+    /**
+     * Stop video.
+     *
+     * @param event the event
+     */
+    @FXML
         private void stopVideo(javafx.event.ActionEvent event){
             mp.dispose();
 
         }
-        @FXML
+
+    /**
+     * To start.
+     *
+     * @param event the event
+     */
+    @FXML
         private void toStart(javafx.event.ActionEvent event){
             mp.stop();
 
         }
-        @FXML
+
+    /**
+     * Open playlist.
+     *
+     * @param event the event
+     */
+    @FXML
         private void openPlaylist(javafx.event.ActionEvent event){
             //Todo The button is given. Let's find the Logic! :D
 
         }
-        @FXML
+
+    /**
+     * Exit.
+     *
+     * @param event the event
+     */
+    @FXML
         private void exit(javafx.event.ActionEvent event){
             System.exit(0);
 

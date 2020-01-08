@@ -46,12 +46,13 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
 #slider{
     -fx-control-inner-background: palegreen;
     -fx-border-color: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);
-    -fx-progress-color-color: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);
+    -fx-progress-color-color: linear-gradient(to right, palegoldenrod 0.1, orange, red 1);
 
-    -fx-background-color: linear-gradient(to right, gree 0.1, orange, red 1);
+    -fx-background-color: linear-gradient(to right, green 0.1, orange, red 1);
 }
 .jfx-slider {
     -jfx-default-thumb: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);;
@@ -60,7 +61,7 @@
 
 .jfx-slider .track,
 .jfx-slider:vertical .track {
-    -fx-background-color: -jfx-default-track;
+    -fx-background-color: -jfx-default-thumb;
     -fx-background-radius: 5;
     -fx-background-insets: 0;
     -fx-pref-width: 2px;
@@ -69,14 +70,14 @@
 
 .jfx-slider .thumb,
 .jfx-slider:focused .thumb {
-    -fx-background-color: -jfx-default-thumb;
+    -fx-background-color: palegoldenrod;
     -fx-background-radius: 20;
     -fx-background-insets: 0;
 }
 
 .jfx-slider .colored-track {
-    -fx-background-color: -jfx-default-thumb;
-    -fx-background-radius: 5;
+    -fx-background-color: palegoldenrod;
+    -fx-background-radius: 4;
     -fx-background-insets: 0;
 }
 
@@ -88,9 +89,13 @@
 .jfx-slider .animated-thumb {
     -fx-pref-width: 30px;
     -fx-pref-height: 30px;
-    -fx-background-color: -jfx-default-thumb;
+    -fx-background-color: palegoldenrod;
     -fx-background-radius: 50% 50% 50% 0%;
     -fx-background-insets: 0;
+}
+#vidScroller{
+    -fx-background-color: palegoldenrod;
+
 }
 
 

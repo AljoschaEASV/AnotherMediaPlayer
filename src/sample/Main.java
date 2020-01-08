@@ -10,21 +10,23 @@ import sample.Infrastructure.DB;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * The type Main.
+ */
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-        //preloader();
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 600, 600));
-        primaryStage.show();
-    }
-
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Preloader.
+     */
     public static void preloader() {
         File[] videos = new File("src/sample/media/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
@@ -72,6 +74,30 @@ public class Main extends Application {
                 DB.deleteSQL("delete from tblVideoOrder where Video='" + title + "'");
             }
         }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        //preloader();
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("Rainbow Media LtD.");
+
+      /*  //Adding the DoubleClick Function for FullScreen Mode
+        Scene scene = new Scene(root);
+        scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent doubleClicker) {
+                if(doubleClicker.getClickCount() == 2){
+                    primaryStage.setFullScreen(true);
+                }
+            }
+        });
+
+       */
+
+
+        primaryStage.setScene(new Scene(root, 600, 600));
+        primaryStage.show();
     }
 }
 
