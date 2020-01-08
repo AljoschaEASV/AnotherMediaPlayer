@@ -69,6 +69,11 @@ public class DB {
         }
     }
 
+    private static void manualDisconnect(){
+        disconnect();
+        pendingData=false;
+    }
+
     /**
      *
      * @param sql the sql string to be executed in SQLServer
