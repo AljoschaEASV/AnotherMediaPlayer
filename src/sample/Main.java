@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class Main extends Application {
-   preloader();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
