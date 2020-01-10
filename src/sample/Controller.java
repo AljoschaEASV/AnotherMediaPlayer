@@ -89,7 +89,7 @@ public class Controller implements Initializable {
      * @param actionEvent the action event
      */
     @FXML
-        public void handleButtonAction(javafx.event.ActionEvent actionEvent) {
+        public void getFile(javafx.event.ActionEvent actionEvent) {
             try {
                 FileChooser fc = new FileChooser();
                 FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter
@@ -180,10 +180,14 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void stopVideo(javafx.event.ActionEvent event){
+        private void stopVideo(javafx.event.ActionEvent event) {
+        try {
             mp.dispose();
 
+        } catch (Exception e) {
+            System.out.println(" ");
         }
+    }
 
     /**
      * To start.
@@ -193,17 +197,6 @@ public class Controller implements Initializable {
     @FXML
         private void toStart(javafx.event.ActionEvent event){
             mp.stop();
-
-        }
-
-    /**
-     * Open playlist.
-     *
-     * @param event the event
-     */
-    @FXML
-        private void openPlaylist(javafx.event.ActionEvent event){
-            //Todo The button is given. Let's find the Logic! :D
 
         }
 
