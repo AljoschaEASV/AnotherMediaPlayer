@@ -74,6 +74,7 @@ public class Main extends Application {
         int noStructs=0;
         int cnt=1;
 
+        //
         DB.selectSQL("select distinct PlaylistName from tblVideoOrder");
         while(!entry.equals("|ND|")) {
             entry=DB.getData();
@@ -111,13 +112,7 @@ public class Main extends Application {
                     cnt++;
                 }
             }
-/*
-            //printing sorted structs
-            for(OrderStruct struct : structs){
-                System.out.println(struct.toString());
-            }
 
- */
             //updating videoorder numbers on titles in databse according to built structcollection
             for(OrderStruct struct : structs){
                 DB.updateSQL("update tblVideoOrder set OrderNo=" + struct.orderNo + " where  Video='" + struct.videoName + "' and PlaylistName='" + playlistName + "'");

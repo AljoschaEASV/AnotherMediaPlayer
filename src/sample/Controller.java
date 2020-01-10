@@ -71,7 +71,7 @@ public class Controller implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
         Parent root1 = fxmlLoader.load();
         Stage stage = new Stage();
-        stage.setTitle("New Window");
+        stage.setTitle("BitPusher Playlist Manager");
         stage.setScene(new Scene(root1));
 
 
