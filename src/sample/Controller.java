@@ -137,6 +137,7 @@ public class Controller implements Initializable {
                       @Override
                       public void handle(MouseEvent event) {
                           mp.seek(Duration.seconds(vidScroller.getValue()));
+                          mp.play();
                       }
                   });
 
