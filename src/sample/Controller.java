@@ -71,11 +71,12 @@ public class Controller implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
         Parent root1 = fxmlLoader.load();
         Stage stage = new Stage();
-        stage.setTitle("New Window");
+        stage.setTitle("BitPusher Playlist Manager");
         stage.setScene(new Scene(root1));
+
+
+
         stage.show();
-
-
 
     }catch (Exception e)
     {
@@ -89,7 +90,7 @@ public class Controller implements Initializable {
      * @param actionEvent the action event
      */
     @FXML
-        public void handleButtonAction(javafx.event.ActionEvent actionEvent) {
+        public void getFile(javafx.event.ActionEvent actionEvent) {
             try {
                 FileChooser fc = new FileChooser();
                 FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter
@@ -100,6 +101,7 @@ public class Controller implements Initializable {
                 fc.getExtensionFilters().add(filter);
                 File file = fc.showOpenDialog(null);
                 filePath = file.toURI().toString();
+
 
 
                 if(filePath != null) {
@@ -113,18 +115,11 @@ public class Controller implements Initializable {
                     DoubleProperty width = mediaViewer.fitWidthProperty();
                     DoubleProperty height = mediaViewer.fitHeightProperty();
 
+                    setVolume();
                     //Binding them to the width and height
                     width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
                     height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
-                    slider.setValue(mp.getVolume() * 100);
-                    slider.valueProperty().addListener(new InvalidationListener() {
-                        @Override
-                        public void invalidated(Observable observable) {
-                            //The set Value supports number from 0.1 - 1 Therefore we divide by 100
-                            mp.setVolume(slider.getValue() / 100);
 
-                        }
-                    });
 
                     //Set the Slider vidScroller to the MediaPlayer
                   mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
@@ -137,6 +132,7 @@ public class Controller implements Initializable {
                       @Override
                       public void handle(MouseEvent event) {
                           mp.seek(Duration.seconds(vidScroller.getValue()));
+                          mp.play();
                       }
                   });
 
@@ -145,12 +141,27 @@ public class Controller implements Initializable {
 
                 }
 
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(" ");
 
             }
-        }
+    }
+
+    /**
+     * Set the volume Sliders functions.
+     */
+    private void setVolume() {
+        //Setting the Function
+        slider.setValue(mp.getVolume() * 100);
+        slider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                //The set Value supports number from 0.1 - 1 Therefore we divide by 100
+                mp.setVolume(slider.getValue() / 100);
+
+            }
+        });
+    }
 
     /**
      * Pause video.
@@ -158,8 +169,8 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void pauseVideo(javafx.event.ActionEvent event){
-            mp.pause();
+    private void pauseVideo(javafx.event.ActionEvent event) {
+        mp.pause();
 
         }
 
@@ -180,10 +191,14 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void stopVideo(javafx.event.ActionEvent event){
+        private void stopVideo(javafx.event.ActionEvent event) {
+        try {
             mp.dispose();
 
+        } catch (Exception e) {
+            System.out.println(" ");
         }
+    }
 
     /**
      * To start.
@@ -193,17 +208,6 @@ public class Controller implements Initializable {
     @FXML
         private void toStart(javafx.event.ActionEvent event){
             mp.stop();
-
-        }
-
-    /**
-     * Open playlist.
-     *
-     * @param event the event
-     */
-    @FXML
-        private void openPlaylist(javafx.event.ActionEvent event){
-            //Todo The button is given. Let's find the Logic! :D
 
         }
 
