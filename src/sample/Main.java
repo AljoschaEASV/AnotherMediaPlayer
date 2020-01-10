@@ -17,7 +17,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         arrangeVideoOrder();
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("BitPusher MediaPlayer");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
     }

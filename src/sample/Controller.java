@@ -73,9 +73,10 @@ public class Controller implements Initializable {
         Stage stage = new Stage();
         stage.setTitle("New Window");
         stage.setScene(new Scene(root1));
+
+
+
         stage.show();
-
-
 
     }catch (Exception e)
     {
