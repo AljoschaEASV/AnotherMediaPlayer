@@ -121,17 +121,21 @@ public class Controller implements Initializable {
 
 
                     //Set the Slider vidScroller to the MediaPlayer
-                  mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                      @Override
-                      public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                          vidScroller.setValue(newValue.toSeconds());
-                      }
-                  });
-                  vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    mp.getTotalDuration();
+                    mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                            //TODO For YOu Jonas. Check that out. There is get duration for the MediaPlayer.
+                            vidScroller.setValue(newValue.toSeconds());
+                            vidScroller.setValue(1);
+                            vidScroller.setMax(mp.getMedia().getDuration().toSeconds() / 100);
+
+                        }
+                    });
+                    vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
                       @Override
                       public void handle(MouseEvent event) {
                           mp.seek(Duration.seconds(vidScroller.getValue()));
-                          mp.play();
                       }
                   });
 
