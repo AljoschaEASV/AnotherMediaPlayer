@@ -119,7 +119,7 @@ public class DB {
     /**
      * Manual disconnect.
      */
-    private static void manualDisconnect(){
+    public static void manualDisconnect(){
         disconnect();
         pendingData=false;
     }
