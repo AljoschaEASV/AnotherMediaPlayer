@@ -27,7 +27,7 @@ public class Main extends Application {
     /**
      * Preloader.
      */
-    public static void preloader() {
+    /*public static void preloader() {
         File[] videos = new File("src/sample/videos/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
 
@@ -69,6 +69,8 @@ public class Main extends Application {
             }
         }
     }
+
+     */
 
 
     @Override
