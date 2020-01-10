@@ -7,29 +7,68 @@ import java.sql.*;
 import java.util.Properties;
 
 /**
+ * The type Db.
  *
  * @author tha
  */
 public class DB {
-    private static Connection con;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
-    private static String port;
-    private static String databaseName;
-    private static String userName;
-    private static String password;
-
+    /**
+     * The constant NOMOREDATA.
+     */
     public static final String NOMOREDATA ="|ND|";
+    /**
+     * The constant con.
+     */
+    private static Connection con;
+    /**
+     * The constant ps.
+     */
+    private static PreparedStatement ps;
+    /**
+     * The constant rs.
+     */
+    private static ResultSet rs;
+    /**
+     * The constant port.
+     */
+    private static String port;
+    /**
+     * The constant databaseName.
+     */
+    private static String databaseName;
+    /**
+     * The constant userName.
+     */
+    private static String userName;
+    /**
+     * The constant password.
+     */
+    private static String password;
+    /**
+     * The constant numberOfColumns.
+     */
     private static int numberOfColumns;
+    /**
+     * The constant currentColumnNumber.
+     */
     private static int currentColumnNumber=1;
 
     /**
      * STATES
      */
     private static boolean moreData=false;  // from Resultset
+    /**
+     * The constant pendingData.
+     */
     private static boolean pendingData=false; // from select statement
+    /**
+     * The constant terminated.
+     */
     private static boolean terminated = false;
 
+    /**
+     * Instantiates a new Db.
+     */
     private DB(){
     }
     /**
@@ -53,6 +92,10 @@ public class DB {
             System.err.println(e.getMessage());
         }
     }
+
+    /**
+     * Connect.
+     */
     private static void connect(){
         try {
             con = DriverManager.getConnection("jdbc:sqlserver://localhost:"+port+";databaseName="+databaseName,userName,password);
@@ -61,6 +104,10 @@ public class DB {
         }
 
     }
+
+    /**
+     * Disconnect.
+     */
     private static void disconnect(){
         try {
             con.close();
@@ -69,12 +116,16 @@ public class DB {
         }
     }
 
-    public static void manualDisconnect(){
+    /**
+     * Manual disconnect.
+     */
+    private static void manualDisconnect(){
         disconnect();
         pendingData=false;
     }
 
     /**
+     * Select sql.
      *
      * @param sql the sql string to be executed in SQLServer
      */
@@ -101,7 +152,9 @@ public class DB {
             System.err.println(e.getMessage());
         }
     }
+
     /**
+     * Get display data string.
      *
      * @return The next single value (formatted) from previous select
      */
@@ -121,10 +174,17 @@ public class DB {
         }
     }
 
+    /**
+     * Get number of columns int.
+     *
+     * @return the int
+     */
     public static int getNumberOfColumns(){
         return numberOfColumns;
     }
+
     /**
+     * Get data string.
      *
      * @return The next single value (without formatting) from previous select
      */
@@ -144,6 +204,12 @@ public class DB {
         }
     }
 
+    /**
+     * Get next value string.
+     *
+     * @param view the view
+     * @return the string
+     */
     private static String getNextValue(boolean view){
         StringBuilder value= new StringBuilder();
         try{
@@ -166,18 +232,42 @@ public class DB {
         return value.toString();
     }
 
+    /**
+     * Insert sql boolean.
+     *
+     * @param sql the sql
+     * @return the boolean
+     */
     public static boolean insertSQL(String sql){
         return executeUpdate(sql);
     }
 
+    /**
+     * Update sql boolean.
+     *
+     * @param sql the sql
+     * @return the boolean
+     */
     public static boolean updateSQL(String sql){
         return executeUpdate(sql);
     }
 
+    /**
+     * Delete sql boolean.
+     *
+     * @param sql the sql
+     * @return the boolean
+     */
     public static boolean deleteSQL(String sql){
         return executeUpdate(sql);
     }
 
+    /**
+     * Execute update boolean.
+     *
+     * @param sql the sql
+     * @return the boolean
+     */
     private static boolean executeUpdate(String sql){
         if (terminated){
             System.exit(0);
