@@ -102,6 +102,7 @@ public class Controller implements Initializable {
                 filePath = file.toURI().toString();
 
 
+
                 if(filePath != null) {
                     //Making the logic for the Media itself.
                     Media media = new Media(filePath);
@@ -113,18 +114,11 @@ public class Controller implements Initializable {
                     DoubleProperty width = mediaViewer.fitWidthProperty();
                     DoubleProperty height = mediaViewer.fitHeightProperty();
 
+                    setVolume();
                     //Binding them to the width and height
                     width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
                     height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
-                    slider.setValue(mp.getVolume() * 100);
-                    slider.valueProperty().addListener(new InvalidationListener() {
-                        @Override
-                        public void invalidated(Observable observable) {
-                            //The set Value supports number from 0.1 - 1 Therefore we divide by 100
-                            mp.setVolume(slider.getValue() / 100);
 
-                        }
-                    });
 
                     //Set the Slider vidScroller to the MediaPlayer
                   mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
@@ -146,12 +140,24 @@ public class Controller implements Initializable {
 
                 }
 
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(" ");
 
             }
-        }
+    }
+
+    private void setVolume() {
+        //Setting the Function
+        slider.setValue(mp.getVolume() * 100);
+        slider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                //The set Value supports number from 0.1 - 1 Therefore we divide by 100
+                mp.setVolume(slider.getValue() / 100);
+
+            }
+        });
+    }
 
     /**
      * Pause video.
@@ -159,8 +165,8 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void pauseVideo(javafx.event.ActionEvent event){
-            mp.pause();
+    private void pauseVideo(javafx.event.ActionEvent event) {
+        mp.pause();
 
         }
 
