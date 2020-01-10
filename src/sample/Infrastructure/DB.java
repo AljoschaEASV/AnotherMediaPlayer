@@ -69,7 +69,7 @@ public class DB {
         }
     }
 
-    private static void manualDisconnect(){
+    public static void manualDisconnect(){
         disconnect();
         pendingData=false;
     }
