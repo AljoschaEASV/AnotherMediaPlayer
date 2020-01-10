@@ -146,6 +146,9 @@ public class Controller implements Initializable {
             }
     }
 
+    /**
+     * Set the volume Sliders functions.
+     */
     private void setVolume() {
         //Setting the Function
         slider.setValue(mp.getVolume() * 100);
