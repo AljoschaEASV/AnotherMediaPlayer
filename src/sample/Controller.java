@@ -121,20 +121,28 @@ public class Controller implements Initializable {
                     height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
 
 
+                    //Making the Video Slider more dynamic depending on the Vid Length
+
+
                     //Set the Slider vidScroller to the MediaPlayer
-                  mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                      @Override
-                      public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                          vidScroller.setValue(newValue.toSeconds());
-                      }
-                  });
-                  vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                      @Override
-                      public void handle(MouseEvent event) {
-                          mp.seek(Duration.seconds(vidScroller.getValue()));
-                          mp.play();
-                      }
-                  });
+                    mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+                        @Override
+                        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                            vidScroller.setMin(0.0);
+
+                            vidScroller.setMax(mp.getTotalDuration().toSeconds());
+
+                            vidScroller.setValue(newValue.toSeconds());
+                        }
+                    });
+                    vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            mp.seek(Duration.seconds(vidScroller.getValue()));
+
+
+                        }
+                    });
 
 
                     mp.play();
