@@ -5,23 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import sample.Infrastructure.DB;
+import sample.Infrastructure.OrderStruct;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class Main extends Application {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception{
-       // arrangeVideoOrder();
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("BitPusher MediaPlayer");
-        primaryStage.setScene(new Scene(root, 600, 600));
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-
-  /*  public static void preloader() {
+    public static void preloader() {
         File[] videos = new File("src/sample/media/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
         boolean deletion = false;
@@ -30,7 +22,7 @@ public class Main extends Application {
         for (File file : videos) {
             if (file.isFile()) {
                 DB.selectSQL("SELECT title FROM tblVideos WHERE Title='" + file.getName() + "'");
-                if(!DB.getData().equals(file.getName())) {
+                if (!DB.getData().equals(file.getName())) {
                     DB.insertSQL("INSERT INTO tblVideos (Title, AbsolutePath) VALUES ('" + file.getName() + "' , '" + file.getAbsolutePath() + "')");
                 }
             }
@@ -54,20 +46,34 @@ public class Main extends Application {
             if(!found){
                 DB.deleteSQL("delete from tblVideos where Title='" + title + "'");
                 DB.deleteSQL("delete from tblVideoOrder where Video='" + title + "'");
-                deletion=true;
+                deletion = true;
             }
         }
 
         //rearranging videoorder table if deletion happened
-        if(deletion) arrangeVideoOrder();
+        if (deletion) arrangeVideoOrder();
     }
 
-    public static void arrangeVideoOrder(){
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        preloader();
+
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        primaryStage.setTitle("BitPusher MediaPlayer");
+        primaryStage.setScene(new Scene(root, 600, 600));
+        primaryStage.show();
+    }
+
+    public static void arrangeVideoOrder() {
         ArrayList<String> playLists = new ArrayList<>();
         ArrayList<OrderStruct> structs = new ArrayList<>();
-        String entry="";
-        int noStructs=0;
-        int cnt=1;
+        String entry = "";
+        int noStructs = 0;
+        int cnt = 1;
 
         //
         DB.selectSQL("select distinct PlaylistName from tblVideoOrder");
@@ -122,7 +128,5 @@ public class Main extends Application {
 
 
     }
-
-   */
 }
 
