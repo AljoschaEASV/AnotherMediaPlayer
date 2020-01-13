@@ -131,6 +131,7 @@ public class Controller implements Initializable {
                             vidScroller.setMax(mp.getTotalDuration().toSeconds());
 
                             vidScroller.setValue(newValue.toSeconds());
+
                         }
                     });
                     vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
