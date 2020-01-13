@@ -74,8 +74,6 @@ public class Controller implements Initializable {
         stage.setTitle("BitPusher Playlist Manager");
         stage.setScene(new Scene(root1));
 
-
-
         stage.show();
 
     }catch (Exception e)
