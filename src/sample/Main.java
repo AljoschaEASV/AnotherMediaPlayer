@@ -57,7 +57,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
+//CHANGE
     @Override
     public void start(Stage primaryStage) throws Exception {
         preloader();
