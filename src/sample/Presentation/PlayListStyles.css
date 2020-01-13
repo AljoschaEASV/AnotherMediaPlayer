@@ -1,3 +1,18 @@
+{
+    -fx-primary: #2A2E37
+;
+    -fx-secondary: #FFFF8D
+;
+    -fx-primarytext: #B2B2B2
+;
+    -fx-blue: #1976D2
+;
+    -fx-red: #FF0000
+;
+    -fx-color-1: #1976D2
+;
+}
+
 .button {
 
 
@@ -42,10 +57,26 @@
     -fx-background-position: center;
 }
 
+#OpenStage {
+    -fx-background-image: url("../Presentation/Ressources/stageChanger.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
 #search {
     -fx-background-image: url("../Presentation/Ressources/search.png");
     -fx-background-size: 50 50;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
+.root {
+    -fx-background-color: -fx-primary;
+}
+
+
+
+
 
