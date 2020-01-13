@@ -2,9 +2,12 @@ package sample;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import sample.Infrastructure.DB;
 import sample.Infrastructure.OrderStruct;
@@ -47,7 +50,10 @@ public class ControllerSecond {
      */
     @FXML
     TableColumn<MediaFile, String> category2;
+    @FXML
+    TextField filterField;
 
+    private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
     /**
      * This method initializes the Cell values.
      */
@@ -77,11 +83,44 @@ public class ControllerSecond {
         }while(true);
     }
 
+    public void filter(){
+        FilteredList<MediaFile> filteredData = new FilteredList<>(mediaFile, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(mediaFile -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare title and category with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (mediaFile.getTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter with title.
+                } else if (mediaFile.getCategory().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter with category.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<MediaFile> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tbData.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tbData.setItems(sortedData);
+    }
 /*
     /**
      * Observablelist with data called search
      */
-    private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
+
 
     /**
      * Method to select and move a row from table containing the songs to a playlist
