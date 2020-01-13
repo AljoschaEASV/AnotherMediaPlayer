@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.Pane?>
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerSecond">
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+      minWidth="-Infinity" prefHeight="680.0" prefWidth="887.0" stylesheets="@Presentation/PlayListStyles.css"
+      xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sample.ControllerSecond">
     <children>
-        <TextField layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="178.0" promptText="Search title or category" />
-        <TextField layoutX="291.0" layoutY="19.0" promptText="Playlist name" />
-        <JFXButton layoutX="554.0" layoutY="45.0" prefHeight="32.0" prefWidth="126.0" text="Delete Playlist" />
-        <JFXButton layoutX="241.0" layoutY="143.0" onAction="#select" text="Add song" />
-        <JFXButton layoutX="458.0" layoutY="15.0" prefHeight="32.0" prefWidth="67.0" text="Open playlist" />
-        <JFXButton layoutX="230.0" layoutY="205.0" text="Remove song" />
-        <JFXButton layoutX="554.0" layoutY="19.0" text="Create playlist" />
-        <JFXButton layoutX="196.0" layoutY="19.0" text="Search" />
+        <TextField layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="178.0"
+                   promptText="Search title or category"/>
+        <TextField layoutX="291.0" layoutY="19.0" promptText="Playlist name"/>
+        <JFXButton layoutX="554.0" layoutY="45.0" prefHeight="32.0" prefWidth="126.0" text="Delete Playlist"/>
+        <JFXButton fx:id="ArrowRight" layoutX="241.0" layoutY="143.0" onAction="#select" text="Add song"/>
+        <JFXButton layoutX="458.0" layoutY="15.0" prefHeight="32.0" prefWidth="126.0" text="Open playlist"/>
+        <JFXButton fx:id="ArrowLeft" layoutX="230.0" layoutY="205.0" text="Remove song"/>
+        <JFXButton layoutX="589.0" layoutY="21.0" text="Create playlist"/>
+        <JFXButton layoutX="196.0" layoutY="19.0" text="Search"/>
         <TableView fx:id="tbData" editable="true" layoutX="14.0" layoutY="61.0" prefHeight="253.0" prefWidth="234.0">
             <columns>
-                <TableColumn fx:id="title" prefWidth="117.0" text="Title" />
-                <TableColumn fx:id="category" prefWidth="117.0" text="Category" />
+                <TableColumn fx:id="title" prefWidth="117.0" text="Title"/>
+                <TableColumn fx:id="category" prefWidth="117.0" text="Category"/>
             </columns>
         </TableView>
         <TableView fx:id="tbData2" editable="true" layoutX="291.0" layoutY="61.0" prefHeight="253.0" prefWidth="234.0">
             <columns>
-                <TableColumn fx:id="title2" prefWidth="117.0" text="Title" />
-                <TableColumn fx:id="category2" prefWidth="117.0" resizable="false" text="Category" />
+                <TableColumn fx:id="title2" prefWidth="117.0" text="Title"/>
+                <TableColumn fx:id="category2" prefWidth="117.0" resizable="false" text="Category"/>
             </columns>
         </TableView>
     </children>

@@ -7,14 +7,14 @@
 }
 
 
-#ArrowLeft {
+#ArrowLeft
+{
     -fx-background-image: url("../Presentation/Ressources/leftArrow.png");
     -fx-background-size: 50 50;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
-
-#ArrowRight {
+#ArrowRight{
     -fx-background-image: url("../Presentation/Ressources/rightArrow.png");
     -fx-background-size: 50 50;
     -fx-background-repeat: no-repeat;

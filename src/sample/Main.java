@@ -5,11 +5,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import sample.Infrastructure.DB;
-import sample.Infrastructure.OrderStruct;
-
-import java.io.File;
-import java.util.ArrayList;
 
 public class Main extends Application {
 
@@ -26,7 +21,7 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void preloader() {
+  /*  public static void preloader() {
         File[] videos = new File("src/sample/media/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
         boolean deletion = false;
@@ -123,6 +118,11 @@ public class Main extends Application {
             cnt=1;
             noStructs=0;
         }
+
+
+
     }
+
+   */
 }
 
