@@ -103,31 +103,18 @@ public class Controller implements Initializable {
 
 
                 if(filePath != null) {
-                    //Making the logic for the Media itself.
-                    Media media = new Media(filePath);
-                    //Using the privately created media Player to create a new mediaplayer, where we now initialize the choosen
-                    //Media File into.
-                    mp = new MediaPlayer(media);
-                    mediaViewer.setMediaPlayer(mp);
-                    //Getting the image to fit the width and height!
-                    DoubleProperty width = mediaViewer.fitWidthProperty();
-                    DoubleProperty height = mediaViewer.fitHeightProperty();
-                    //Binding them to the width and height
-                    //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-                    // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
-                    width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-                    height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+
+                    screenAdjuster();
+
 
                     setVolume();
-
-
-                    //Making the Video Slider more dynamic depending on the Vid Length
 
 
                     //Set the Slider vidScroller to the MediaPlayer
                     mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                         @Override
                         public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                            //Making the Video Slider more dynamic depending on the Vid Length
                             vidScroller.setMin(0.0);
 
                             vidScroller.setMax(mp.getTotalDuration().toSeconds());
@@ -151,22 +138,42 @@ public class Controller implements Initializable {
                 }
 
             } catch (Exception e) {
-                System.out.println(" ");
+                System.out.println(" Wrong File / No File chosen");
 
             }
+    }
+
+    /**
+     * Setting the Media file into the mediaPlayer and therefrom into the mediaViewer inside our application
+     * Thereafter adding the size property which can cause trouble on some machines changing to fullscreen.
+     */
+    private void screenAdjuster() {
+        Media media = new Media(filePath);
+        mp = new MediaPlayer(media);
+        mediaViewer.setMediaPlayer(mp);
+        //Getting the image to fit the width and height!
+        DoubleProperty width = mediaViewer.fitWidthProperty();
+        DoubleProperty height = mediaViewer.fitHeightProperty();
+        //Binding them to the width and height
+        //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
+        // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+        width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
+        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
     }
 
     /**
      * Set the volume Sliders functions.
      */
     private void setVolume() {
+        //used to get a useable number for the called methods. Either 1-100 or 0-1.
+        int sizeChanger = 100;
         //Setting the Function
-        slider.setValue(mp.getVolume() * 100);
+        slider.setValue(mp.getVolume() * sizeChanger);
         slider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 //The set Value supports number from 0.1 - 1 Therefore we divide by 100
-                mp.setVolume(slider.getValue() / 100);
+                mp.setVolume(slider.getValue() / sizeChanger);
 
             }
         });
@@ -175,13 +182,18 @@ public class Controller implements Initializable {
     /**
      * Pause video.
      *
-     * @param event the event
+     * @param event the event to pause the video
      */
     @FXML
     private void pauseVideo(javafx.event.ActionEvent event) {
-        mp.pause();
+        try {
+            mp.pause();
+
+        } catch (Exception e) {
+            System.out.println("Please insert a file to pause it. ");
 
         }
+    }
 
     /**
      * Play video.
@@ -189,10 +201,15 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void playVideo(javafx.event.ActionEvent event){
+    private void playVideo(javafx.event.ActionEvent event) {
+        try {
             mp.play();
 
+        } catch (Exception e) {
+            System.out.println("Please insert a file to play from. ");
+
         }
+    }
 
     /**
      * Stop video.
@@ -205,7 +222,7 @@ public class Controller implements Initializable {
             mp.dispose();
 
         } catch (Exception e) {
-            System.out.println(" ");
+            System.out.println(" No file found");
         }
     }
 
@@ -215,15 +232,19 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void toStart(javafx.event.ActionEvent event){
+    private void toStart(javafx.event.ActionEvent event) {
+        try {
             mp.stop();
 
+        } catch (Exception e) {
+            System.out.println(" No file found");
         }
+    }
 
     /**
      * Exit.
      *
-     * @param event the event
+     * @param event the event to exit the program
      */
     @FXML
         private void exit(javafx.event.ActionEvent event){
