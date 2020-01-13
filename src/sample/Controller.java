@@ -71,11 +71,10 @@ public class Controller implements Initializable {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
         Parent root1 = fxmlLoader.load();
         Stage stage = new Stage();
-        stage.setTitle("New Window");
+        stage.setTitle("BitPusher Playlist Manager");
         stage.setScene(new Scene(root1));
+
         stage.show();
-
-
 
     }catch (Exception e)
     {
@@ -120,24 +119,28 @@ public class Controller implements Initializable {
                     height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
 
 
+                    //Making the Video Slider more dynamic depending on the Vid Length
+
+
                     //Set the Slider vidScroller to the MediaPlayer
-                    mp.getTotalDuration();
                     mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                         @Override
                         public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                            //TODO For YOu Jonas. Check that out. There is get duration for the MediaPlayer.
-                            vidScroller.setValue(newValue.toSeconds());
-                            vidScroller.setValue(1);
-                            vidScroller.setMax(mp.getMedia().getDuration().toSeconds() / 100);
+                            vidScroller.setMin(0.0);
 
+                            vidScroller.setMax(mp.getTotalDuration().toSeconds());
+
+                            vidScroller.setValue(newValue.toSeconds());
                         }
                     });
                     vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                      @Override
-                      public void handle(MouseEvent event) {
-                          mp.seek(Duration.seconds(vidScroller.getValue()));
-                      }
-                  });
+                        @Override
+                        public void handle(MouseEvent event) {
+                            mp.seek(Duration.seconds(vidScroller.getValue()));
+
+
+                        }
+                    });
 
 
                     mp.play();

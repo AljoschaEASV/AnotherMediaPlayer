@@ -1,34 +1,26 @@
 package sample;
 
-import javafx.beans.property.SimpleStringProperty;
-
 /**
  * This class is used to make the TableView and to be able to edit them
  */
-public class Search {
-
-
+public class MediaFile {
     /**
      * The Title.
      */
-    private SimpleStringProperty title;
+    private String title;
     /**
      * The Category.
      */
-    private SimpleStringProperty category;
+    private String category;
 
-    /**
-     * Instantiates a new Search.
-     *
-     * @param title    the title
-     * @param category the category
-     */
-    public Search(String title, String category){
-        this.title = new SimpleStringProperty(title);
-        this.category = new SimpleStringProperty(category);
+    MediaFile(){
+        this.title="";
+        this.category="";
+    }
 
-
-
+    MediaFile(String title, String category){
+        this.title=title;
+        this.category=category;
     }
 
     /**
@@ -37,7 +29,7 @@ public class Search {
      * @return the title
      */
     public String getTitle() {
-        return title.get();
+        return this.title;
     }
 
     /**
@@ -46,7 +38,7 @@ public class Search {
      * @param title the title
      */
     public void setTitle(String title) {
-        this.title.set(title);
+        this.title=title;
     }
 
     /**
@@ -55,7 +47,7 @@ public class Search {
      * @return the category
      */
     public String getCategory() {
-        return category.get();
+        return this.category;
     }
 
     /**
@@ -64,7 +56,7 @@ public class Search {
      * @param category the category
      */
     public void setCategory(String category) {
-        this.category.set(category);
+        this.category=category;
     }
 
 }
