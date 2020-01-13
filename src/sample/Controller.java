@@ -112,11 +112,13 @@ public class Controller implements Initializable {
                     //Getting the image to fit the width and height!
                     DoubleProperty width = mediaViewer.fitWidthProperty();
                     DoubleProperty height = mediaViewer.fitHeightProperty();
-
-                    setVolume();
                     //Binding them to the width and height
+                    //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
+                    // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
                     width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
                     height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+
+                    setVolume();
 
 
                     //Making the Video Slider more dynamic depending on the Vid Length
