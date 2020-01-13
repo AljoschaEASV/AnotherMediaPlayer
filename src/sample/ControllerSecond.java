@@ -4,11 +4,16 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import sample.Infrastructure.DB;
 import sample.Infrastructure.OrderStruct;
 
@@ -52,6 +57,11 @@ public class ControllerSecond {
     TableColumn<MediaFile, String> category2;
     @FXML
     TextField filterField;
+
+    private Stage mediaPlayer;
+
+
+
 
     private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
     /**
@@ -134,4 +144,34 @@ public class ControllerSecond {
         }
     }
 
+    public void openPlayListManager(ActionEvent event) {
+
+        try
+        {
+            if (mediaPlayer == null)
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+                Parent root2 = fxmlLoader.load();
+                mediaPlayer = new Stage();
+
+                mediaPlayer.setScene(new Scene(root2));
+                mediaPlayer.show();
+            }else if (mediaPlayer.isShowing())
+            {
+                mediaPlayer.toFront();
+            }else
+            {
+                mediaPlayer.show();
+            }
+
+
+
+
+
+        }catch (Exception e)
+        {
+            System.out.println("Can't load the window");
+        }
+
+    }
 }
