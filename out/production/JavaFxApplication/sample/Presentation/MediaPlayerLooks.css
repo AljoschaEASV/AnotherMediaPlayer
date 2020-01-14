@@ -1,6 +1,10 @@
 .button {
     -fx-background-color: transparent;
 }
+{
+    -fx-primary: #2A2E37
+;
+}
 
 #pauseButton{
     -fx-background-image: url("../Presentation/Ressources/pauseButton.png");

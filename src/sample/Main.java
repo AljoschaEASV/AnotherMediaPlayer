@@ -14,8 +14,6 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
-    private Stage primaryStage;
-
     @Override
     public void start(Stage primaryStage) throws Exception{
 
@@ -25,6 +23,8 @@ public class Main extends Application {
         primaryStage.setTitle("BitPusher MediaPlayer");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
+        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(600);
     }
 
     public static void main(String[] args) {

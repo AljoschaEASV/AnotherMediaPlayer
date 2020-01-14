@@ -82,6 +82,7 @@ public class Controller implements Initializable {
             playlistManager = new Stage();
             playlistManager.setTitle("BitPusher Playlist Manager");
             playlistManager.setScene(new Scene(root1));
+
             playlistManager.show();
         }else if (playlistManager.isShowing())
         {
