@@ -12,7 +12,14 @@
         <VBox alignment="CENTER" prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
                 <Slider fx:id="vidScroller" prefHeight="20.0" prefWidth="600.0"
-                        style="-fx-background-color: transparent;"/>
+                        style="-fx-background-color: transparent;">
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
+                    <padding>
+                        <Insets top="10.0"/>
+                    </padding>
+                </Slider>
                 <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0">
                     <children>
                         <Label text="Playlist"/>
@@ -22,12 +29,14 @@
                                 <Insets left="5.0" right="5.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="playButton" minHeight="40.0" mnemonicParsing="false" onAction="#playVideo" prefWidth="40.0">
+                        <Button fx:id="playButton" minHeight="40.0" mnemonicParsing="false" onAction="#playVideo"
+                                prefWidth="40.0">
                             <HBox.margin>
                                 <Insets left="5.0" right="5.0"/>
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseVideo" prefHeight="40.0" prefWidth="40.0">
+                        <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseVideo" prefHeight="40.0"
+                                prefWidth="40.0">
                             <HBox.margin>
                                 <Insets left="5.0" right="5.0"/>
                             </HBox.margin>
@@ -62,6 +71,12 @@
                             </HBox.margin>
                         </JFXSlider>
                     </children>
+                    <padding>
+                        <Insets top="10.0"/>
+                    </padding>
+                    <VBox.margin>
+                        <Insets top="10.0"/>
+                    </VBox.margin>
                 </HBox>
             </children>
         </VBox>
@@ -74,6 +89,9 @@
                     <viewport>
                         <Rectangle2D/>
                     </viewport>
+                    <StackPane.margin>
+                        <Insets bottom="10.0"/>
+                    </StackPane.margin>
                 </MediaView>
             </children>
         </StackPane>

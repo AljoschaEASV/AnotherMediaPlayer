@@ -1,67 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXSlider?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0"
-            minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@Presentation/MediaPlayerLooks.css"
-            xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sample.Controller">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@Presentation/MediaPlayerLooks.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <bottom>
         <VBox alignment="CENTER" prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <Slider fx:id="vidScroller" prefHeight="20.0" prefWidth="600.0"
-                        style="-fx-background-color: transparent;"/>
+                <Slider fx:id="vidScroller" prefHeight="20.0" prefWidth="600.0" style="-fx-background-color: transparent;">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+               <padding>
+                  <Insets top="10.0" />
+               </padding></Slider>
                 <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0">
                     <children>
-                        <Label text="Playlist"/>
-                        <Button fx:id="playlistFile" minHeight="40.0" mnemonicParsing="false"
-                                onAction="#openPlayListManager" prefWidth="40.0">
+                        <Label text="Playlist" />
+                        <Button fx:id="playlistFile" minHeight="40.0" mnemonicParsing="false" onAction="#openPlayListManager" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
                         <Button fx:id="playButton" minHeight="40.0" mnemonicParsing="false" onAction="#playVideo" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
                         <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseVideo" prefHeight="40.0" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="backToStart" mnemonicParsing="false" onAction="#toStart" prefHeight="40.0"
-                                prefWidth="40.0">
+                        <Button fx:id="backToStart" mnemonicParsing="false" onAction="#toStart" prefHeight="40.0" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopVideo" prefHeight="40.0"
-                                prefWidth="40.0">
+                        <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopVideo" prefHeight="40.0" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="OpenTestFile" mnemonicParsing="false" onAction="#getFile" prefHeight="40.0"
-                                prefWidth="40.0">
+                        <Button fx:id="OpenTestFile" mnemonicParsing="false" onAction="#getFile" prefHeight="40.0" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
-                        <Button fx:id="shutdown" mnemonicParsing="false" onAction="#exit" prefHeight="40.0"
-                                prefWidth="40.0">
+                        <Button fx:id="shutdown" mnemonicParsing="false" onAction="#exit" prefHeight="40.0" prefWidth="40.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </Button>
                         <JFXSlider fx:id="slider" prefHeight="40.0" prefWidth="166.0">
                             <HBox.margin>
-                                <Insets left="5.0" right="5.0"/>
+                                <Insets left="5.0" right="5.0" />
                             </HBox.margin>
                         </JFXSlider>
                     </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
                 </HBox>
             </children>
         </VBox>
@@ -69,11 +80,13 @@
     <center>
         <StackPane prefHeight="335.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
-                <MediaView fx:id="mediaViewer" fitHeight="200.0" fitWidth="200.0" onMouseClicked="#getFile"
-                           pickOnBounds="true" StackPane.alignment="CENTER">
+                <MediaView fx:id="mediaViewer" fitHeight="200.0" fitWidth="200.0" onMouseClicked="#getFile" pickOnBounds="true" StackPane.alignment="CENTER">
                     <viewport>
-                        <Rectangle2D/>
+                        <Rectangle2D />
                     </viewport>
+               <StackPane.margin>
+                  <Insets bottom="10.0" />
+               </StackPane.margin>
                 </MediaView>
             </children>
         </StackPane>

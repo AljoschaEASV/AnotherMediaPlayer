@@ -24,7 +24,7 @@
     -fx-background-position: center;
 }
 
-#moveUp{
+#moveUp {
     -fx-background-image: url("../Presentation/Ressources/dropUp.png");
     -fx-background-size: 50 50;
     -fx-background-repeat: no-repeat;
