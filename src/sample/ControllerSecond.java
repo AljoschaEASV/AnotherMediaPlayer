@@ -4,10 +4,18 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import sample.Infrastructure.DB;
 import sample.Infrastructure.OrderStruct;
 
@@ -56,6 +64,13 @@ public class ControllerSecond {
     private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
     private ObservableList<MediaPlay> mediaPlay = FXCollections.observableArrayList();
     private ObservableList<String> playlists = FXCollections.observableArrayList();
+    TableColumn<MediaFile, String> category2;
+    @FXML
+    TextField filterField;
+
+    private Stage mediaPlayer;
+
+
 
     /**
      * This method initializes the Cell values.
@@ -201,6 +216,44 @@ public class ControllerSecond {
         }while(true);
     }
 
+    public void filter(){
+        FilteredList<MediaFile> filteredData = new FilteredList<>(mediaFile, p -> true);
+
+        // 2. Set the filter Predicate whenever the filter changes.
+        filterField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredData.setPredicate(mediaFile -> {
+                // If filter text is empty, display all
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+
+                // Compare title and category with filter text.
+                String lowerCaseFilter = newValue.toLowerCase();
+
+                if (mediaFile.getTitle().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter with title.
+                } else if (mediaFile.getCategory().toLowerCase().contains(lowerCaseFilter)) {
+                    return true; // Filter with category.
+                }
+                return false; // Does not match.
+            });
+        });
+
+        // 3. Wrap the FilteredList in a SortedList.
+        SortedList<MediaFile> sortedData = new SortedList<>(filteredData);
+
+        // 4. Bind the SortedList comparator to the TableView comparator.
+        // 	  Otherwise, sorting the TableView would have no effect.
+        sortedData.comparatorProperty().bind(tbData.comparatorProperty());
+
+        // 5. Add sorted (and filtered) data to the table.
+        tbData.setItems(sortedData);
+    }
+/*
+    /**
+     * Observablelist with data called search
+     */
+
     public void loadPlaylist(){
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
         String entry ="";
@@ -241,5 +294,35 @@ public class ControllerSecond {
             playlists.add(entry);
             entry=DB.getData();
         }
+    }
+    public void openPlayListManager(ActionEvent event) {
+
+        try
+        {
+            if (mediaPlayer == null)
+            {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+                Parent root2 = fxmlLoader.load();
+                mediaPlayer = new Stage();
+
+                mediaPlayer.setScene(new Scene(root2));
+                mediaPlayer.show();
+            }else if (mediaPlayer.isShowing())
+            {
+                mediaPlayer.toFront();
+            }else
+            {
+                mediaPlayer.show();
+            }
+
+
+
+
+
+        }catch (Exception e)
+        {
+            System.out.println("Can't load the window");
+        }
+
     }
 }

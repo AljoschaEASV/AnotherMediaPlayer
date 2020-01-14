@@ -1,3 +1,8 @@
+{
+    -fx-primary: #2A2E37
+;
+}
+
 .button {
 
 
@@ -20,3 +25,48 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
+
+#deletePlaylist {
+    -fx-background-image: url("../Presentation/Ressources/DeleteButton.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#createPlaylist {
+    -fx-background-image: url("../Presentation/Ressources/addToPlaylist.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#openPlaylist {
+    -fx-background-image: url("../Presentation/Ressources/openPlaylistLUppe.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#OpenStage {
+    -fx-background-image: url("../Presentation/Ressources/stageChanger.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
+#search {
+    -fx-background-image: url("../Presentation/Ressources/search.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.root {
+    -fx-background-color: -fx-primary;
+}
+
+
+
+
+

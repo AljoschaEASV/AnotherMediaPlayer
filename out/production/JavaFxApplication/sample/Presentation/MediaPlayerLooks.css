@@ -1,3 +1,7 @@
+{
+    -fx-primary: #2A2E37
+;
+}
 .button{
     -fx-background-color: transparent;
 
@@ -82,7 +86,7 @@
 }
 
 .jfx-slider .slider-value {
-    -fx-stroke: WHITE;
+    -fx-stroke: MIDNIGHTBLUE;
     -fx-font-size: 10;
 }
 
@@ -93,9 +97,14 @@
     -fx-background-radius: 50% 50% 50% 0%;
     -fx-background-insets: 0;
 }
-#vidScroller{
+
+#vidScroller {
     -fx-background-color: palegoldenrod;
 
+}
+
+.root {
+    -fx-background-color: -fx-primary;
 }
 
 

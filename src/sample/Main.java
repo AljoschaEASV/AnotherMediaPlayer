@@ -13,9 +13,16 @@ import java.util.ArrayList;
 
 public class Main extends Application {
 
+
+
+
+    private Stage primaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception{
+
         preloader();
+
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("BitPusher MediaPlayer");
         primaryStage.setScene(new Scene(root, 600, 600));
