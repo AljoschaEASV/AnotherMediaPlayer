@@ -113,16 +113,20 @@ public class Controller implements Initializable {
                     //Set the Slider vidScroller to the MediaPlayer
                     mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                         @Override
-                        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
+
+
                             //Making the Video Slider more dynamic depending on the Vid Length
                             vidScroller.setMin(0.0);
 
                             vidScroller.setMax(mp.getTotalDuration().toSeconds());
 
-                            vidScroller.setValue(newValue.toSeconds());
+                            vidScroller.setValue(currentPlayTime.toSeconds());
 
                         }
                     });
+
+
                     vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent event) {
@@ -134,6 +138,11 @@ public class Controller implements Initializable {
 
 
                     mp.play();
+
+                    /**
+                     * Abfrage o
+                     */
+
 
                 }
 

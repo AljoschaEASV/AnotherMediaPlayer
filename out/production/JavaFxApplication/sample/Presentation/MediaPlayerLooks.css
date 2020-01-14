@@ -1,7 +1,7 @@
 {
-    -fx-primary: #2A2E37;
+    -fx-primary: #2A2E37
+;
 }
-
 .button{
     -fx-background-color: transparent;
 
@@ -97,10 +97,12 @@
     -fx-background-radius: 50% 50% 50% 0%;
     -fx-background-insets: 0;
 }
-#vidScroller{
+
+#vidScroller {
     -fx-background-color: palegoldenrod;
 
 }
+
 .root {
     -fx-background-color: -fx-primary;
 }
