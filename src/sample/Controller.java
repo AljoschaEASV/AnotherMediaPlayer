@@ -274,7 +274,18 @@ public class Controller implements Initializable {
             }
             entry=DB.getData();
         }while(!entry.equals("|ND|"));
+
+        /*
+        DB.selectSQL("select AbsolutePath from tblVideos where Title='" + playlistentries.get(0).getTitle() + "'");
+        String entry = DB.getData();
+        play(entry);
+
+         */
+
+
     }
+
+
 }
 
 
