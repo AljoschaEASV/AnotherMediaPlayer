@@ -59,22 +59,36 @@ public class Controller implements Initializable {
      */
     private String filePath;
 
+    private Stage playlistManager;
+
     /**
      * This method is gonna make a new window
      *
      * @param event the event
      */
-    public void openNewWIndow(javafx.event.ActionEvent event) {
+    public void openPlayListManager(javafx.event.ActionEvent event) {
 
     try
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
-        Parent root1 = fxmlLoader.load();
-        Stage stage = new Stage();
-        stage.setTitle("BitPusher Playlist Manager");
-        stage.setScene(new Scene(root1));
+        if (playlistManager == null)
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
+            Parent root1 = fxmlLoader.load();
+            playlistManager = new Stage();
+            playlistManager.setTitle("BitPusher Playlist Manager");
+            playlistManager.setScene(new Scene(root1));
+            playlistManager.show();
+        }else if (playlistManager.isShowing())
+        {
+            playlistManager.toFront();
+        }else
+            {
+                playlistManager.show();
+            }
 
-        stage.show();
+
+
+
 
     }catch (Exception e)
     {
