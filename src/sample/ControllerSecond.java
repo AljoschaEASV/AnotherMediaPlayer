@@ -1,7 +1,6 @@
 package sample;
 
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -17,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import sample.Infrastructure.DB;
-import sample.Infrastructure.OrderStruct;
 
 /**
  * The type Controller second.
@@ -62,6 +60,7 @@ public class ControllerSecond {
     JFXComboBox comboPlaylist;
 
     private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
+    //Contains the Media Files
     private ObservableList<MediaPlay> mediaPlay = FXCollections.observableArrayList();
     private ObservableList<String> playlists = FXCollections.observableArrayList();
 
@@ -113,13 +112,13 @@ public class ControllerSecond {
                     playNo = Integer.parseInt(entry) + 1;
                     mediaPlay.add(new MediaPlay(selection.getTitle(), Integer.toString(playNo), playlistName));
                     DB.manualDisconnect();
-                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + Integer.toString(playNo) + ")");
+                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + playNo + ")");
                 } else {
                     playNo = 1;
                     mediaPlay.add(new MediaPlay(selection.getTitle(), Integer.toString(playNo), playlistName));
                     playlists.add(playlistName);
                     DB.manualDisconnect();
-                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + Integer.toString(playNo) + ")");
+                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + playNo + ")");
                 }
             } else {
                 DB.selectSQL("select OrderNo from tblVideoOrder where PlaylistName='" + playlistName + "' order by orderNo desc");
@@ -128,13 +127,13 @@ public class ControllerSecond {
                     playNo = Integer.parseInt(entry) + 1;
                     mediaPlay.add(new MediaPlay(selection.getTitle(), Integer.toString(playNo), playlistName));
                     DB.manualDisconnect();
-                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + Integer.toString(playNo) + ")");
+                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + playNo + ")");
                 } else {
                     playNo = 1;
                     mediaPlay.add(new MediaPlay(selection.getTitle(), Integer.toString(playNo), playlistName));
                     playlists.add(playlistName);
                     DB.manualDisconnect();
-                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + Integer.toString(playNo) + ")");
+                    DB.insertSQL("insert into tblVideoOrder (Video, PlaylistName, OrderNo) values ('" + selection.getTitle() + "', '" + playlistName + "', " + playNo + ")");
                 }
             }
         }
@@ -232,10 +231,8 @@ public class ControllerSecond {
 
                 if (mediaFile.getTitle().toLowerCase().contains(lowerCaseFilter)) {
                     return true; // Filter with title.
-                } else if (mediaFile.getCategory().toLowerCase().contains(lowerCaseFilter)) {
-                    return true; // Filter with category.
-                }
-                return false; // Does not match.
+                } else return mediaFile.getCategory().toLowerCase().contains(lowerCaseFilter); // Filter with category.
+                // Does not match.
             });
         });
 

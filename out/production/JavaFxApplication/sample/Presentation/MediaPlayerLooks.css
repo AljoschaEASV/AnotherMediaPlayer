@@ -1,3 +1,7 @@
+.button {
+    -fx-background-color: transparent;
+}
+
 #pauseButton{
     -fx-background-image: url("../Presentation/Ressources/pauseButton.png");
     -fx-background-size: 50 50;

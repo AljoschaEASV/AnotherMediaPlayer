@@ -24,15 +24,15 @@
     -fx-background-position: center;
 }
 
-#createPlaylist {
-    -fx-background-image: url("../Presentation/Ressources/addToPlaylist.png");
+#moveUp {
+    -fx-background-image: url("../Presentation/Ressources/dropUp.png");
     -fx-background-size: 50 50;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
 
-#openPlaylist {
-    -fx-background-image: url("../Presentation/Ressources/openPlaylistLUppe.png");
+#moveDown {
+    -fx-background-image: url("../Presentation/Ressources/dropDown.png");
     -fx-background-size: 50 50;
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
