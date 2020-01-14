@@ -7,6 +7,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +23,7 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import sample.Infrastructure.DB;
 
 import java.io.File;
 import java.net.URL;
@@ -35,7 +38,7 @@ public class Controller implements Initializable {
      * The Media viewer.
      */
     @FXML
-        private MediaView mediaViewer;
+    private MediaView mediaViewer;
     /**
      * The Mp.
      */
@@ -48,18 +51,20 @@ public class Controller implements Initializable {
      * The Slider.
      */
     @FXML
-        private JFXSlider slider;
+    private JFXSlider slider;
     /**
      * The Vid scroller.
      */
     @FXML
-        private Slider vidScroller;
+    private Slider vidScroller;
     /**
      * The File path.
      */
     private String filePath;
 
     private Stage playlistManager;
+
+    private ObservableList<MediaPlay> playlistentries = FXCollections.observableArrayList();
 
     /**
      * This method is gonna make a new window
@@ -102,65 +107,39 @@ public class Controller implements Initializable {
      * @param actionEvent the action event
      */
     @FXML
-        public void getFile(javafx.event.ActionEvent actionEvent) {
-            try {
-                FileChooser fc = new FileChooser();
-                FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter
-                        ("Please select a File (*.mp4) ", "*.mp4");
+    public void getFile(javafx.event.ActionEvent actionEvent) {
+        try {
+            FileChooser fc = new FileChooser();
+            FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter
+                    ("Please select a File (*.mp4) ", "*.mp4");
+            //This will get the mp4 File given the Filter as a File.
+            fc.getExtensionFilters().add(filter);
+            File file = fc.showOpenDialog(null);
+            filePath = file.toURI().toString();
 
+            if (filePath != null) {
+                screenAdjuster();
+                setVolume();
+                //Set the Slider vidScroller to the MediaPlayer
+                mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
+                        //Making the Video Slider more dynamic depending on the Vid Length
+                        vidScroller.setMin(0.0);
+                        vidScroller.setMax(mp.getTotalDuration().toSeconds());
+                        vidScroller.setValue(currentPlayTime.toSeconds());
+                    }
+                });
 
-                //This will get the mp4 File given the Filter as a File.
-                fc.getExtensionFilters().add(filter);
-                File file = fc.showOpenDialog(null);
-                filePath = file.toURI().toString();
-
-
-
-                if(filePath != null) {
-
-                    screenAdjuster();
-
-
-                    setVolume();
-
-
-                    //Set the Slider vidScroller to the MediaPlayer
-                    mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                        @Override
-                        public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
-
-
-                            //Making the Video Slider more dynamic depending on the Vid Length
-                            vidScroller.setMin(0.0);
-
-                            vidScroller.setMax(mp.getTotalDuration().toSeconds());
-
-                            vidScroller.setValue(currentPlayTime.toSeconds());
-
-                        }
-                    });
-
-
-                    vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent event) {
-                            mp.seek(Duration.seconds(vidScroller.getValue()));
-
-
-                        }
-                    });
-
-
-                    mp.play();
-
-                    /**
-                     * Abfrage o
-                     */
-
-
-                }
-
-            } catch (Exception e) {
+                vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        mp.seek(Duration.seconds(vidScroller.getValue()));
+                    }
+                });
+                mp.play();
+            }
+        } catch (Exception e) {
                 System.out.println(" Wrong File / No File chosen");
 
             }
@@ -181,7 +160,7 @@ public class Controller implements Initializable {
         //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
         // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
         width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height - 1"));
+        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
     }
 
     /**
@@ -240,7 +219,7 @@ public class Controller implements Initializable {
      * @param event the event
      */
     @FXML
-        private void stopVideo(javafx.event.ActionEvent event) {
+    private void stopVideo(javafx.event.ActionEvent event) {
         try {
             mp.dispose();
 
@@ -270,19 +249,33 @@ public class Controller implements Initializable {
      * @param event the event to exit the program
      */
     @FXML
-        private void exit(javafx.event.ActionEvent event){
+    private void exit(javafx.event.ActionEvent event){
             System.exit(0);
 
         }
 
-        @Override
-        public void initialize(URL location, ResourceBundle resources) {
-            //todo
-        }
-
-
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     }
+
+    public void reloadPlaylist(String playlistname){
+        playlistentries.clear();
+        DB.selectSQL("select Video, OrderNo from tblVideoOrder where PlaylistName='" + playlistname + "' order by OrderNo asc");
+        String entry = "";
+        String video="";
+        String orderNo="";
+        do{
+            entry = DB.getData();
+            if(!entry.equals("|ND|"))video = entry;
+            entry=DB.getData();
+            if(!entry.equals("|ND|")) {
+                orderNo = entry;
+                playlistentries.add(new MediaPlay(video, orderNo, playlistname));
+            }
+            entry=DB.getData();
+        }while(!entry.equals("|ND|"));
+    }
+}
 
 
 

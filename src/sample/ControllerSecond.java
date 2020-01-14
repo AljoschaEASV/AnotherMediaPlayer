@@ -64,7 +64,7 @@ public class ControllerSecond {
     private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
     private ObservableList<MediaPlay> mediaPlay = FXCollections.observableArrayList();
     private ObservableList<String> playlists = FXCollections.observableArrayList();
-    TableColumn<MediaFile, String> category2;
+
     @FXML
     TextField filterField;
 
