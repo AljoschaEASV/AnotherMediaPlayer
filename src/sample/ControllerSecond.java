@@ -249,10 +249,6 @@ public class ControllerSecond {
         // 5. Add sorted (and filtered) data to the table.
         tbData.setItems(sortedData);
     }
-/*
-    /**
-     * Observablelist with data called search
-     */
 
     public void loadPlaylist(){
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
@@ -295,6 +291,7 @@ public class ControllerSecond {
             entry=DB.getData();
         }
     }
+
     public void openPlayListManager(ActionEvent event) {
 
         try
