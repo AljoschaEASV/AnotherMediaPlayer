@@ -1,1 +1,60 @@
-#ArrayButtonIDLEFT
+.button {
+    -fx-background-color: transparent;
+}
+
+
+#ArrowLeft {
+    -fx-background-image: url("../Presentation/Ressources/leftArrow.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#ArrowRight {
+    -fx-background-image: url("../Presentation/Ressources/rightArrow.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#deletePlaylist {
+    -fx-background-image: url("../Presentation/Ressources/DeleteButton.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#moveUp {
+    -fx-background-image: url("../Presentation/Ressources/dropUp.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#moveDown {
+    -fx-background-image: url("../Presentation/Ressources/dropDown.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+#OpenStage {
+    -fx-background-image: url("../Presentation/Ressources/stageChanger.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
+#search {
+    -fx-background-image: url("../Presentation/Ressources/search.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
+
+
+
+

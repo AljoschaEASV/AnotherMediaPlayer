@@ -11,15 +11,20 @@ import sample.Infrastructure.OrderStruct;
 import java.io.File;
 import java.util.ArrayList;
 
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-       // arrangeVideoOrder();
+
+        preloader();
+
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("BitPusher MediaPlayer");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
+        primaryStage.setMinWidth(600);
+        primaryStage.setMinHeight(600);
     }
 
     public static void main(String[] args) {
@@ -36,7 +41,7 @@ public class Main extends Application {
             if (file.isFile()) {
                 DB.selectSQL("SELECT title FROM tblVideos WHERE Title='" + file.getName() + "'");
                 if(!DB.getData().equals(file.getName())) {
-                    DB.insertSQL("INSERT INTO tblVideos (Title, AbsolutePath) VALUES ('" + file.getName() + "' , '" + file.getAbsolutePath() + "')");
+                    DB.insertSQL("INSERT INTO tblVideos (Title, Category, AbsolutePath) VALUES ('" + file.getName() + "' , 'Default', '" + file.getAbsolutePath() + "')");
                 }
             }
         }
@@ -74,13 +79,12 @@ public class Main extends Application {
         int noStructs=0;
         int cnt=1;
 
-        //
+        //selecting all playlist names and writing them in arraylist
         DB.selectSQL("select distinct PlaylistName from tblVideoOrder");
         while(!entry.equals("|ND|")) {
             entry=DB.getData();
             if(!entry.equals("|ND|")){
                 playLists.add(entry);
-                System.out.println(entry + " has successfully been added to playlist collection");
             }
         }
         DB.manualDisconnect();
@@ -98,8 +102,7 @@ public class Main extends Application {
                 entry=DB.getData();
                 if(!entry.equals("|ND|")) structs.get(noStructs).playlistName = entry;
                 entry=DB.getData();
-                if(!entry.equals("|ND|")) structs.get(noStructs).orderNo = Integer.valueOf(entry);
-                System.out.println("struct: " + structs.get(noStructs).videoName + " successfully added to arraylist");
+                if(!entry.equals("|ND|")) structs.get(noStructs).orderNo = Integer.parseInt(entry);
                 entry=DB.getData();
                 noStructs++;
             }

@@ -1,8 +1,10 @@
-.button{
+.button {
     -fx-background-color: transparent;
-
 }
-
+{
+    -fx-primary: #2A2E37
+;
+}
 
 #pauseButton{
     -fx-background-image: url("../Presentation/Ressources/pauseButton.png");
@@ -58,14 +60,16 @@
     -jfx-default-thumb: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);;
     -jfx-default-track: #CCCCCC;
 }
-
+{
+    -fx-primary: #2A2E37
+;
+}
 .jfx-slider .track,
 .jfx-slider:vertical .track {
     -fx-background-color: -jfx-default-thumb;
     -fx-background-radius: 5;
     -fx-background-insets: 0;
-    -fx-pref-width: 2px;
-    -fx-pref-height: 2px;
+
 }
 
 .jfx-slider .thumb,
@@ -82,7 +86,7 @@
 }
 
 .jfx-slider .slider-value {
-    -fx-stroke: WHITE;
+    -fx-stroke: MIDNIGHTBLUE;
     -fx-font-size: 10;
 }
 
@@ -93,10 +97,11 @@
     -fx-background-radius: 50% 50% 50% 0%;
     -fx-background-insets: 0;
 }
-#vidScroller{
-    -fx-background-color: palegoldenrod;
 
-}
+
+
+
+
 
 
 

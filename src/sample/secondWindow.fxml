@@ -1,32 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.Pane?>
-
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.ControllerSecond">
+<?import javafx.scene.paint.*?>
+<Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="320.0" minWidth="760.0"
+      prefHeight="327.0" prefWidth="762.0" stylesheets="@Presentation/PlayListStyles.css"
+      xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sample.ControllerSecond">
     <children>
-        <TextField layoutX="14.0" layoutY="14.0" prefHeight="34.0" prefWidth="178.0" promptText="Search title or category" />
-        <TextField layoutX="291.0" layoutY="19.0" promptText="Playlist name" />
-        <JFXButton layoutX="554.0" layoutY="45.0" prefHeight="32.0" prefWidth="126.0" text="Delete Playlist" />
-        <JFXButton layoutX="241.0" layoutY="143.0" onAction="#select" text="Add song" />
-        <JFXButton layoutX="458.0" layoutY="15.0" prefHeight="32.0" prefWidth="67.0" text="Open playlist" />
-        <JFXButton layoutX="230.0" layoutY="205.0" text="Remove song" />
-        <JFXButton layoutX="554.0" layoutY="19.0" text="Create playlist" />
-        <JFXButton layoutX="196.0" layoutY="19.0" text="Search" />
+        <JFXButton fx:id="deletePlaylist" layoutX="608.0" layoutY="7.0" onAction="#deletePlaylist" prefHeight="50.0"
+                   prefWidth="50.0" text="¨,"/>
         <TableView fx:id="tbData" editable="true" layoutX="14.0" layoutY="61.0" prefHeight="253.0" prefWidth="234.0">
             <columns>
-                <TableColumn fx:id="title" prefWidth="117.0" text="Title" />
-                <TableColumn fx:id="category" prefWidth="117.0" text="Category" />
+                <TableColumn fx:id="title" prefWidth="117.0" style="-fx-background-color: transparent;" text="Title"/>
+                <TableColumn fx:id="category" prefWidth="117.0" style="-fx-background-color: transparent;"
+                             text="Category"/>
             </columns>
+            <effect>
+                <Blend mode="OVERLAY"/>
+            </effect>
         </TableView>
-        <TableView fx:id="tbData2" editable="true" layoutX="291.0" layoutY="61.0" prefHeight="253.0" prefWidth="234.0">
+        <Button fx:id="ArrowLeft" layoutX="277.0" layoutY="196.0" mnemonicParsing="false" onAction="#deleteEntry"
+                prefHeight="59.0" prefWidth="52.0"/>
+        <Button fx:id="ArrowRight" layoutX="277.0" layoutY="137.0" mnemonicParsing="false" onAction="#select"
+                prefHeight="59.0" prefWidth="52.0"/>
+        <JFXTextField fx:id="filterField" layoutX="15.0" layoutY="21.0" onKeyPressed="#filter" prefHeight="31.0"
+                      prefWidth="234.0" promptText="Search for title or category"/>
+        <TableView fx:id="tbPlaylist" layoutX="358.0" layoutY="61.0" prefHeight="253.0" prefWidth="295.0">
             <columns>
-                <TableColumn fx:id="title2" prefWidth="117.0" text="Title" />
-                <TableColumn fx:id="category2" prefWidth="117.0" resizable="false" text="Category" />
+                <TableColumn fx:id="title2" prefWidth="125.0" style="-fx-background-color: transparent;" text="Title"/>
+                <TableColumn fx:id="number2" prefWidth="58.0" style="-fx-background-color: transparent;"
+                             text="OrderNo"/>
+                <TableColumn fx:id="playlist" prefWidth="115.0" style="-fx-background-color: transparent;"
+                             text="Playlist"/>
             </columns>
+            <effect>
+                <Blend mode="OVERLAY"/>
+            </effect>
         </TableView>
+        <JFXButton fx:id="moveUp" layoutX="672.0" layoutY="139.0" mnemonicParsing="false" onAction="#moveUp"
+                   prefHeight="50.0" prefWidth="50.0" text="´"/>
+        <JFXButton fx:id="moveDown" layoutX="672.0" layoutY="201.0" mnemonicParsing="false" onAction="#moveDown"
+                   prefHeight="50.0" prefWidth="50.0" text="´"/>
+        <JFXComboBox fx:id="comboPlaylist" editable="true" layoutX="358.0" layoutY="19.0" onAction="#loadPlaylist"
+                     prefHeight="25.0" prefWidth="252.0" promptText="Enter Playlist Name"/>
+        <Label layoutX="277.0" layoutY="120.0" text="Add Song">
+            <textFill>
+                <LinearGradient endX="1.0" endY="0.6023809523809524" startX="1.0" startY="0.5833333333333334">
+                    <stops>
+                        <Stop color="#a68a4c"/>
+                        <Stop color="#409c68" offset="0.9980842911877394"/>
+                        <Stop color="#10bff5" offset="1.0"/>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Label>
+        <Label layoutX="271.0" layoutY="247.0" text="Delete Song">
+            <textFill>
+                <LinearGradient endX="1.0" endY="0.4476190476190476" startX="1.0" startY="0.5833333333333334">
+                    <stops>
+                        <Stop color="#a68a4c"/>
+                        <Stop color="#409c68" offset="0.9980842911877394"/>
+                        <Stop color="#409c68" offset="1.0"/>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Label>
     </children>
 </Pane>
