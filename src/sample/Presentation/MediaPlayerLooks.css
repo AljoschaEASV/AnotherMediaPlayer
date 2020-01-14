@@ -1,5 +1,6 @@
-
-
+.button {
+    -fx-background-color: transparent;
+}
 
 #pauseButton{
     -fx-background-image: url("../Presentation/Ressources/pauseButton.png");
@@ -64,8 +65,7 @@
     -fx-background-color: -jfx-default-thumb;
     -fx-background-radius: 5;
     -fx-background-insets: 0;
-    -fx-pref-width: 2px;
-    -fx-pref-height: 2px;
+
 }
 
 .jfx-slider .thumb,
