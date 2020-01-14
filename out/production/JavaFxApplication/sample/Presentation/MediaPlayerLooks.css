@@ -62,7 +62,10 @@
     -jfx-default-thumb: linear-gradient(to right, mediumseagreen 0.1, orange, red 1);;
     -jfx-default-track: #CCCCCC;
 }
-
+{
+    -fx-primary: #2A2E37
+;
+}
 .jfx-slider .track,
 .jfx-slider:vertical .track {
     -fx-background-color: -jfx-default-thumb;
