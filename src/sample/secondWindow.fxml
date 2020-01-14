@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.*?>
 <Pane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="320.0" minWidth="760.0"
       prefHeight="327.0" prefWidth="762.0" stylesheets="@Presentation/PlayListStyles.css"
       xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sample.ControllerSecond">
@@ -44,5 +45,27 @@
                    prefHeight="50.0" prefWidth="50.0" text="´"/>
         <JFXComboBox fx:id="comboPlaylist" editable="true" layoutX="358.0" layoutY="19.0" onAction="#loadPlaylist"
                      prefHeight="25.0" prefWidth="252.0" promptText="Enter Playlist Name"/>
+        <Label layoutX="277.0" layoutY="120.0" text="Add Song">
+            <textFill>
+                <LinearGradient endX="1.0" endY="0.6023809523809524" startX="1.0" startY="0.5833333333333334">
+                    <stops>
+                        <Stop color="#a68a4c"/>
+                        <Stop color="#409c68" offset="0.9980842911877394"/>
+                        <Stop color="#10bff5" offset="1.0"/>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Label>
+        <Label layoutX="271.0" layoutY="247.0" text="Delete Song">
+            <textFill>
+                <LinearGradient endX="1.0" endY="0.4476190476190476" startX="1.0" startY="0.5833333333333334">
+                    <stops>
+                        <Stop color="#a68a4c"/>
+                        <Stop color="#409c68" offset="0.9980842911877394"/>
+                        <Stop color="#409c68" offset="1.0"/>
+                    </stops>
+                </LinearGradient>
+            </textFill>
+        </Label>
     </children>
 </Pane>
