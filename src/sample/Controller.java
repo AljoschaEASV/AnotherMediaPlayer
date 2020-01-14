@@ -181,7 +181,7 @@ public class Controller implements Initializable {
         //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
         // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
         width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height - 1"));
     }
 
     /**

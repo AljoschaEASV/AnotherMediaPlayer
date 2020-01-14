@@ -1,8 +1,4 @@
 
-.button{
-    -fx-background-color: transparent;
-
-}
 
 
 #pauseButton{
@@ -98,10 +94,8 @@
     -fx-background-insets: 0;
 }
 
-#vidScroller {
-    -fx-background-color: palegoldenrod;
 
-}
+
 
 
 
