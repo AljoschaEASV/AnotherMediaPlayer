@@ -1,7 +1,4 @@
-{
-    -fx-primary: #2A2E37
-;
-}
+
 .button{
     -fx-background-color: transparent;
 
@@ -106,9 +103,7 @@
 
 }
 
-.root {
-    -fx-background-color: -fx-primary;
-}
+
 
 
 
