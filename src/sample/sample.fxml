@@ -6,21 +6,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.media.MediaView?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0"
-            minWidth="600.0" prefHeight="400.0" prefWidth="600.0" stylesheets="@Presentation/MediaPlayerLooks.css"
+            minWidth="600.0" prefHeight="424.0" prefWidth="634.0" stylesheets="@Presentation/MediaPlayerLooks.css"
             xmlns="http://javafx.com/javafx/8.0.171" fx:controller="sample.Controller">
     <bottom>
-        <VBox alignment="CENTER" prefHeight="26.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="119.0" prefWidth="634.0" BorderPane.alignment="CENTER">
             <children>
-                <Slider fx:id="vidScroller" prefHeight="20.0" prefWidth="600.0"
-                        style="-fx-background-color: transparent;">
-                    <VBox.margin>
-                        <Insets top="10.0"/>
-                    </VBox.margin>
-                    <padding>
-                        <Insets top="10.0"/>
-                    </padding>
-                </Slider>
-                <HBox alignment="CENTER" prefHeight="0.0" prefWidth="600.0">
+                <HBox alignment="CENTER" prefHeight="33.0" prefWidth="634.0">
                     <children>
                         <Label text="Playlist"/>
                         <Button fx:id="playlistFile" minHeight="40.0" mnemonicParsing="false"
@@ -78,22 +69,21 @@
                         <Insets top="10.0"/>
                     </VBox.margin>
                 </HBox>
+                <Slider fx:id="vidScroller" prefHeight="65.0" prefWidth="634.0"
+                        style="-fx-background-color: transparent;">
+                    <padding>
+                        <Insets top="10.0"/>
+                    </padding>
+                </Slider>
             </children>
         </VBox>
     </bottom>
     <center>
-        <StackPane prefHeight="335.0" prefWidth="600.0" BorderPane.alignment="CENTER">
-            <children>
-                <MediaView fx:id="mediaViewer" fitHeight="200.0" fitWidth="200.0" onMouseClicked="#getFile"
-                           pickOnBounds="true" StackPane.alignment="CENTER">
-                    <viewport>
-                        <Rectangle2D/>
-                    </viewport>
-                    <StackPane.margin>
-                        <Insets bottom="10.0"/>
-                    </StackPane.margin>
-                </MediaView>
-            </children>
-        </StackPane>
+        <MediaView fx:id="mediaViewer" blendMode="SRC_ATOP" depthTest="DISABLE" fitHeight="200.0" fitWidth="200.0"
+                   pickOnBounds="true" BorderPane.alignment="CENTER">
+            <viewport>
+                <Rectangle2D/>
+            </viewport>
+        </MediaView>
     </center>
 </BorderPane>
