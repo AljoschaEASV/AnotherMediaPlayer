@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 
 /**
  * The Media Player Controller.
+ * Given the implementation of Initializable we can on Runtime
  */
 public class Controller implements Initializable {
 
@@ -40,20 +41,16 @@ public class Controller implements Initializable {
     @FXML
     private MediaView mediaViewer;
     /**
-     * The Mp.
+     * The MediaPlayer.
      */
     private MediaPlayer mp;
     /**
-     * The Mv.
-     */
-    private MediaView mv;
-    /**
-     * The Slider.
+     * The Slider for Volume.
      */
     @FXML
     private JFXSlider slider;
     /**
-     * The Vid scroller.
+     * The Video scroll Slider.
      */
     @FXML
     private Slider vidScroller;
@@ -63,45 +60,39 @@ public class Controller implements Initializable {
     private String filePath;
 
     /**
-     * The Playlist manager.
+     * The scene for the Playlist manager.
      */
     private Stage playlistManager;
 
     /**
-     * The Playlistentries.
+     * The Playlistentries stored in an Obeservable List
+     *
+     * @see reloadPlaylistMethod for further use.
      */
     private ObservableList<MediaPlay> playlistentries = FXCollections.observableArrayList();
 
     /**
      * This method is gonna make a new window
      *
-     * @param event the event
+     * @param event the event to open and check if opened the second Stage aka PlaylistManager.
      */
     public void openPlayListManager(javafx.event.ActionEvent event) {
+        try {
+            if (playlistManager == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
+                Parent root1 = fxmlLoader.load();
+                playlistManager = new Stage();
+                playlistManager.setTitle("BitPusher Playlist Manager");
+                playlistManager.setScene(new Scene(root1));
 
-        try
-    {
-        if (playlistManager == null)
-        {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
-            Parent root1 = fxmlLoader.load();
-            playlistManager = new Stage();
-            playlistManager.setTitle("BitPusher Playlist Manager");
-            playlistManager.setScene(new Scene(root1));
-
-            playlistManager.show();
-        }else if (playlistManager.isShowing())
+                playlistManager.show();
+            } else if (playlistManager.isShowing())
         {
             playlistManager.toFront();
         }else
             {
                 playlistManager.show();
             }
-
-
-
-
-
     }catch (Exception e)
     {
         System.out.println("Can't load the window");
@@ -111,7 +102,7 @@ public class Controller implements Initializable {
     /**
      * todo the actual Project has to have the filePath from the Database / Playlists.
      *
-     * @param actionEvent the action event
+     * @param actionEvent the event on buttonPress to be able to choose a mp4 File and play it through the MediaPlayer.
      */
     @FXML
     public void getFile(javafx.event.ActionEvent actionEvent) {
@@ -154,7 +145,7 @@ public class Controller implements Initializable {
 
     /**
      * Setting the Media file into the mediaPlayer and therefrom into the mediaViewer inside our application
-     * Thereafter adding the size property which can cause trouble on some machines changing to fullscreen.
+     * Also binds the mediaViewer to the size of the BorderPane
      */
     private void screenAdjuster() {
         Media media = new Media(filePath);
@@ -171,7 +162,8 @@ public class Controller implements Initializable {
     }
 
     /**
-     * Set the volume Sliders functions.
+     * Set the volume Sliders functions - Using the Slider through this method enables to controll the volume of
+     * the program.
      */
     private void setVolume() {
         //used to get a useable number for the called methods. Either 1-100 or 0-1.
@@ -207,7 +199,7 @@ public class Controller implements Initializable {
     /**
      * Play video.
      *
-     * @param event the event
+     * @param event the event to play the video.
      */
     @FXML
     private void playVideo(javafx.event.ActionEvent event) {
@@ -223,7 +215,7 @@ public class Controller implements Initializable {
     /**
      * Stop video.
      *
-     * @param event the event
+     * @param event the event to dispose the media File from the Viewer & player
      */
     @FXML
     private void stopVideo(javafx.event.ActionEvent event) {
@@ -238,7 +230,7 @@ public class Controller implements Initializable {
     /**
      * To start.
      *
-     * @param event the event
+     * @param event the event to stop the player
      */
     @FXML
     private void toStart(javafx.event.ActionEvent event) {
@@ -262,6 +254,18 @@ public class Controller implements Initializable {
     }
 
     @Override
+    /**
+     * Called to initialize a controller after its root element has been
+     * completely processed.
+     *
+     * @param location
+     * The location used to resolve relative paths for the root object, or
+     * <tt>null</tt> if the location is not known.
+     *
+     * @param resources
+     * The resources used to localize the root object, or <tt>null</tt> if
+     * the root object was not localized.
+     */
     public void initialize(URL location, ResourceBundle resources) {
     }
 
