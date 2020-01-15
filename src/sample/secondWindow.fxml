@@ -69,7 +69,7 @@
         </Label>
         <JFXButton fx:id="openMediaPlay" layoutX="671.0" layoutY="79.0" onAction="#openMediaPlayer" prefHeight="50.0"
                    prefWidth="52.0" text="`"/>
-        <Label layoutX="675.0" layoutY="71.0" text="Go Back">
+        <Label layoutX="675.0" layoutY="61.0" text="Go Back">
             <textFill>
                 <LinearGradient endX="1.0" endY="0.6023809523809524" startX="1.0" startY="0.5833333333333334">
                     <stops>

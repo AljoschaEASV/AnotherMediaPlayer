@@ -17,8 +17,9 @@ import java.util.ArrayList;
  */
 public class Main extends Application {
 
-    @Override
+ @Override
     public void start(Stage primaryStage) throws Exception{
+
 
         preloader();
 
@@ -28,7 +29,7 @@ public class Main extends Application {
         primaryStage.show();
         primaryStage.setMinWidth(600);
         primaryStage.setMinHeight(600);
-    }
+ }
 
     /**
      * The entry point of application.

@@ -354,8 +354,13 @@ public class ControllerSecond {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
                 Parent root2 = fxmlLoader.load();
                 mediaPlayer = new Stage();
+                mediaPlayer.setTitle("BitPusher MediaPlayer");
+                mediaPlayer.setScene(new Scene(root2, 600, 600));
+                mediaPlayer.show();
+                mediaPlayer.setMinWidth(600);
+                mediaPlayer.setMinHeight(600);
 
-                mediaPlayer.setScene(new Scene(root2));
+
                 mediaPlayer.show();
             } else if (mediaPlayer.isShowing()) {
                 mediaPlayer.toFront();
