@@ -13,14 +13,23 @@ public class MediaFile {
      */
     private String category;
 
-    MediaFile(){
-        this.title="";
-        this.category="";
+    /**
+     * Instantiates a new Media file.
+     */
+    MediaFile() {
+        this.title = "";
+        this.category = "";
     }
 
-    MediaFile(String title, String category){
-        this.title=title;
-        this.category=category;
+    /**
+     * Instantiates a new Media file.
+     *
+     * @param title    the title
+     * @param category the category
+     */
+    MediaFile(String title, String category) {
+        this.title = title;
+        this.category = category;
     }
 
     /**

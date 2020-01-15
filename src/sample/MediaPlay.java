@@ -13,18 +13,31 @@ public class MediaPlay {
      */
     private String orderNo;
 
+    /**
+     * The Playlist.
+     */
     private String playlist;
 
-    MediaPlay(){
-        this.title="";
-        this.orderNo="";
-        this.playlist="";
+    /**
+     * Instantiates a new Media play.
+     */
+    MediaPlay() {
+        this.title = "";
+        this.orderNo = "";
+        this.playlist = "";
     }
 
-    MediaPlay(String title, String orderNo, String playlist){
-        this.title=title;
-        this.orderNo=orderNo;
-        this.playlist=playlist;
+    /**
+     * Instantiates a new Media play.
+     *
+     * @param title    the title
+     * @param orderNo  the order no
+     * @param playlist the playlist
+     */
+    MediaPlay(String title, String orderNo, String playlist) {
+        this.title = title;
+        this.orderNo = orderNo;
+        this.playlist = playlist;
     }
 
     /**
@@ -60,14 +73,24 @@ public class MediaPlay {
      * @param orderNo the category
      */
     public void setOrderNo(String orderNo) {
-        this.orderNo=orderNo;
+        this.orderNo = orderNo;
     }
 
-    public String getPlaylist(){
+    /**
+     * Get playlist string.
+     *
+     * @return the string
+     */
+    public String getPlaylist() {
         return this.playlist;
     }
 
-    public void setPlaylist(String playlist){
-        this.playlist=playlist;
+    /**
+     * Set playlist.
+     *
+     * @param playlist the playlist
+     */
+    public void setPlaylist(String playlist) {
+        this.playlist = playlist;
     }
 }

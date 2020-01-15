@@ -50,25 +50,45 @@ public class ControllerSecond {
     @FXML
     TableColumn<MediaPlay, String> title2;
 
+    /**
+     * The Number 2.
+     */
     @FXML
     TableColumn<MediaPlay, String> number2;
 
+    /**
+     * The Playlist.
+     */
     @FXML
     TableColumn<MediaPlay, String> playlist;
 
+    /**
+     * The Combo playlist.
+     */
     @FXML
     JFXComboBox comboPlaylist;
-
-    private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
-    //Contains the Media Files
-    private ObservableList<MediaPlay> mediaPlay = FXCollections.observableArrayList();
-    private ObservableList<String> playlists = FXCollections.observableArrayList();
-
+    /**
+     * The Filter field.
+     */
     @FXML
     TextField filterField;
-
+    /**
+     * The Media file.
+     */
+    private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
+    /**
+     * The Media play.
+     */
+//Contains the Media Files
+    private ObservableList<MediaPlay> mediaPlay = FXCollections.observableArrayList();
+    /**
+     * The Playlists.
+     */
+    private ObservableList<String> playlists = FXCollections.observableArrayList();
+    /**
+     * The Media player.
+     */
     private Stage mediaPlayer;
-
 
 
     /**
@@ -96,7 +116,6 @@ public class ControllerSecond {
     /**
      * Method to select and move a row from table containing the songs to a playlist
      */
-
     public void select() {
         MediaFile selection = tbData.getSelectionModel().getSelectedItem();
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
@@ -139,9 +158,12 @@ public class ControllerSecond {
         }
     }
 
-    public void deleteEntry(){
+    /**
+     * Delete entry.
+     */
+    public void deleteEntry() {
         MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
-        if(selection != null) {
+        if (selection != null) {
             String OrderNo = selection.getOrderNo();
             String playlistName = selection.getPlaylist();
             DB.manualDisconnect();
@@ -151,9 +173,12 @@ public class ControllerSecond {
         }
     }
 
-    public void deletePlaylist(){
+    /**
+     * Delete playlist.
+     */
+    public void deletePlaylist() {
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
-        if(!playlistName.equals("")) {
+        if (!playlistName.equals("")) {
             DB.deleteSQL("delete from tblVideoOrder where PlaylistName='" + playlistName + "'");
             loadPlaylist();
             loadComboBox();
@@ -161,16 +186,19 @@ public class ControllerSecond {
         }
     }
 
-    public void moveUp(){
+    /**
+     * Move up.
+     */
+    public void moveUp() {
         MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
-        if(selection != null){
+        if (selection != null) {
             String video = selection.getTitle();
             int orderNo = Integer.parseInt(selection.getOrderNo());
             String playlistName = selection.getPlaylist();
             DB.selectSQL("select ID from tblVideoOrder where PlaylistName='" + playlistName + "' and OrderNo=" + orderNo);
             String ID = DB.getData();
             DB.manualDisconnect();
-            if(!ID.equals("|ND|") && orderNo>1) {
+            if (!ID.equals("|ND|") && orderNo > 1) {
                 DB.manualDisconnect();
                 DB.updateSQL("update tblVideoOrder set OrderNo=" + orderNo + " where PlaylistName='" + playlistName + "' and OrderNo=" + (orderNo - 1));
                 DB.updateSQL("update tblVideoOrder set OrderNo=" + (orderNo - 1) + " where PlaylistName='" + playlistName + "' and OrderNo=" + orderNo + " and ID=" + ID);
@@ -179,9 +207,12 @@ public class ControllerSecond {
         }
     }
 
-    public void moveDown(){
+    /**
+     * Move down.
+     */
+    public void moveDown() {
         MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
-        if(selection != null){
+        if (selection != null) {
             String video = selection.getTitle();
             int orderNo = Integer.parseInt(selection.getOrderNo());
             String playlistName = selection.getPlaylist();
@@ -190,7 +221,7 @@ public class ControllerSecond {
             DB.manualDisconnect();
             DB.selectSQL("select OrderNo from tblVideoOrder where PlaylistName='" + playlistName + "' order by OrderNo desc");
             int maxOrderNo = Integer.parseInt(DB.getData());
-            if(!ID.equals("|ND|") && orderNo<maxOrderNo) {
+            if (!ID.equals("|ND|") && orderNo < maxOrderNo) {
                 DB.manualDisconnect();
                 DB.updateSQL("update tblVideoOrder set OrderNo=" + orderNo + " where PlaylistName='" + playlistName + "' and OrderNo=" + (orderNo + 1));
                 DB.updateSQL("update tblVideoOrder set OrderNo=" + (orderNo + 1) + " where PlaylistName='" + playlistName + "' and OrderNo=" + orderNo + " and ID=" + ID);
@@ -199,23 +230,31 @@ public class ControllerSecond {
         }
     }
 
-    public void loadVideoList(){
-        String entry="";
+    /**
+     * Load video list.
+     */
+    public void loadVideoList() {
+        String entry = "";
         String entryTitle = "";
         String entryCategory = "";
         DB.selectSQL("select Title, Category from tblVideos");
 
-        do{
-            entry=DB.getData();
-            if(!entry.equals("|ND|"))entryTitle=entry; else break;
-            entry=DB.getData();
-            if(!entry.equals("|ND|"))entryCategory=entry; else break;
+        do {
+            entry = DB.getData();
+            if (!entry.equals("|ND|")) entryTitle = entry;
+            else break;
+            entry = DB.getData();
+            if (!entry.equals("|ND|")) entryCategory = entry;
+            else break;
 
             mediaFile.add(new MediaFile(entryTitle, entryCategory));
-        }while(true);
+        } while (true);
     }
 
-    public void filter(){
+    /**
+     * Filter.
+     */
+    public void filter() {
         FilteredList<MediaFile> filteredData = new FilteredList<>(mediaFile, p -> true);
 
         // 2. Set the filter Predicate whenever the filter changes.
@@ -247,14 +286,17 @@ public class ControllerSecond {
         tbData.setItems(sortedData);
     }
 
-    public void loadPlaylist(){
+    /**
+     * Load playlist.
+     */
+    public void loadPlaylist() {
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
-        String entry ="";
-        String entryTitle="";
-        String entryPlayNo="";
+        String entry = "";
+        String entryTitle = "";
+        String entryPlayNo = "";
         mediaPlay.clear();
 
-        if(playlistName.equals("") || playlistName.equals("default")) {
+        if (playlistName.equals("") || playlistName.equals("default")) {
             DB.selectSQL("select Video, OrderNo from tblVideoOrder where PlaylistName='default' order by OrderNo asc");
             playlistName = "default";
             do {
@@ -269,52 +311,54 @@ public class ControllerSecond {
             DB.selectSQL("select Video, OrderNo from tblVideoOrder where PlaylistName='" + playlistName + "' order by OrderNo asc");
             do {
                 entry = DB.getData();
-                if (!entry.equals("|ND|")) entryTitle = entry; else break;
+                if (!entry.equals("|ND|")) entryTitle = entry;
+                else break;
                 entry = DB.getData();
-                if (!entry.equals("|ND|")) entryPlayNo = entry; else break;
+                if (!entry.equals("|ND|")) entryPlayNo = entry;
+                else break;
 
                 mediaPlay.add(new MediaPlay(entryTitle, entryPlayNo, playlistName));
             } while (true);
         }
     }
 
-    public void loadComboBox(){
+    /**
+     * Load combo box.
+     */
+    public void loadComboBox() {
         playlists.clear();
         DB.manualDisconnect();
         DB.selectSQL("select distinct PlaylistName from tblVideoOrder");
         String entry = DB.getData();
-        while(!entry.equals("|ND|")){
+        while (!entry.equals("|ND|")) {
             playlists.add(entry);
-            entry=DB.getData();
+            entry = DB.getData();
         }
     }
 
+    /**
+     * Open play list manager.
+     *
+     * @param event the event
+     */
     public void openPlayListManager(ActionEvent event) {
 
-        try
-        {
-            if (mediaPlayer == null)
-            {
+        try {
+            if (mediaPlayer == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
                 Parent root2 = fxmlLoader.load();
                 mediaPlayer = new Stage();
 
                 mediaPlayer.setScene(new Scene(root2));
                 mediaPlayer.show();
-            }else if (mediaPlayer.isShowing())
-            {
+            }else if (mediaPlayer.isShowing()) {
                 mediaPlayer.toFront();
-            }else
-            {
+            }else {
                 mediaPlayer.show();
             }
 
 
-
-
-
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             System.out.println("Can't load the window");
         }
 

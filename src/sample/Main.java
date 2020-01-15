@@ -12,6 +12,9 @@ import java.io.File;
 import java.util.ArrayList;
 
 
+/**
+ * The type Main.
+ */
 public class Main extends Application {
 
     @Override
@@ -27,10 +30,18 @@ public class Main extends Application {
         primaryStage.setMinHeight(600);
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * Preloader.
+     */
     public static void preloader() {
         File[] videos = new File("src/sample/media/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
@@ -40,7 +51,7 @@ public class Main extends Application {
         for (File file : videos) {
             if (file.isFile()) {
                 DB.selectSQL("SELECT title FROM tblVideos WHERE Title='" + file.getName() + "'");
-                if(!DB.getData().equals(file.getName())) {
+                if (!DB.getData().equals(file.getName())) {
                     DB.insertSQL("INSERT INTO tblVideos (Title, Category, AbsolutePath) VALUES ('" + file.getName() + "' , 'Default', '" + file.getAbsolutePath() + "')");
                 }
             }
@@ -64,24 +75,27 @@ public class Main extends Application {
             if(!found){
                 DB.deleteSQL("delete from tblVideos where Title='" + title + "'");
                 DB.deleteSQL("delete from tblVideoOrder where Video='" + title + "'");
-                deletion=true;
+                deletion = true;
             }
         }
 
         //rearranging videoorder table if deletion happened
-        if(deletion) arrangeVideoOrder();
+        if (deletion) arrangeVideoOrder();
     }
 
-    public static void arrangeVideoOrder(){
+    /**
+     * Arrange video order.
+     */
+    public static void arrangeVideoOrder() {
         ArrayList<String> playLists = new ArrayList<>();
         ArrayList<OrderStruct> structs = new ArrayList<>();
-        String entry="";
-        int noStructs=0;
-        int cnt=1;
+        String entry = "";
+        int noStructs = 0;
+        int cnt = 1;
 
         //selecting all playlist names and writing them in arraylist
         DB.selectSQL("select distinct PlaylistName from tblVideoOrder");
-        while(!entry.equals("|ND|")) {
+        while (!entry.equals("|ND|")) {
             entry=DB.getData();
             if(!entry.equals("|ND|")){
                 playLists.add(entry);

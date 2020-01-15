@@ -62,8 +62,14 @@ public class Controller implements Initializable {
      */
     private String filePath;
 
+    /**
+     * The Playlist manager.
+     */
     private Stage playlistManager;
 
+    /**
+     * The Playlistentries.
+     */
     private ObservableList<MediaPlay> playlistentries = FXCollections.observableArrayList();
 
     /**
@@ -73,7 +79,7 @@ public class Controller implements Initializable {
      */
     public void openPlayListManager(javafx.event.ActionEvent event) {
 
-    try
+        try
     {
         if (playlistManager == null)
         {
@@ -250,25 +256,30 @@ public class Controller implements Initializable {
      * @param event the event to exit the program
      */
     @FXML
-    private void exit(javafx.event.ActionEvent event){
-            System.exit(0);
+    private void exit(javafx.event.ActionEvent event) {
+        System.exit(0);
 
-        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-    public void reloadPlaylist(String playlistname){
+    /**
+     * Reload playlist.
+     *
+     * @param playlistname the playlistname
+     */
+    public void reloadPlaylist(String playlistname) {
         playlistentries.clear();
         DB.selectSQL("select Video, OrderNo from tblVideoOrder where PlaylistName='" + playlistname + "' order by OrderNo asc");
         String entry = "";
-        String video="";
-        String orderNo="";
-        do{
+        String video = "";
+        String orderNo = "";
+        do {
             entry = DB.getData();
-            if(!entry.equals("|ND|"))video = entry;
-            entry=DB.getData();
+            if (!entry.equals("|ND|")) video = entry;
+            entry = DB.getData();
             if(!entry.equals("|ND|")) {
                 orderNo = entry;
                 playlistentries.add(new MediaPlay(video, orderNo, playlistname));
