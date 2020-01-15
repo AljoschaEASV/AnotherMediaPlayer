@@ -86,7 +86,7 @@ public class ControllerSecond {
      */
     private ObservableList<String> playlists = FXCollections.observableArrayList();
     /**
-     * The Media player.
+     * The Media player Stage for the go back button.
      */
     private Stage mediaPlayer;
 

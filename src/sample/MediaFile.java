@@ -24,8 +24,8 @@ public class MediaFile {
     /**
      * Instantiates a new Media file.
      *
-     * @param title    the title
-     * @param category the category
+     * @param title    String
+     * @param category String
      */
     MediaFile(String title, String category) {
         this.title = title;
