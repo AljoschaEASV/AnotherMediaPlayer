@@ -295,9 +295,9 @@ public class Controller implements Initializable {
 
 
     /**
-     * Reload playlist.
+     * Enables the user to fetch the file in the given order from the playlist.
      *
-     * @param playlistname the playlistname
+     * @param playlistname the specifier to get the absolute path from mediaFiles inside a specific playlist.
      */
     public void reloadPlaylist(String playlistname) {
         playlistentries.clear();
