@@ -67,7 +67,7 @@ public class Controller implements Initializable {
     /**
      * The Playlistentries stored in an Obeservable List
      *
-     * @see reloadPlaylistMethod for further use.
+     * @see reloadPlaylistMethodfor further use.
      */
     private ObservableList<MediaPlay> playlistentries = FXCollections.observableArrayList();
 
@@ -101,8 +101,14 @@ public class Controller implements Initializable {
 
     /**
      * todo the actual Project has to have the filePath from the Database / Playlists.
+     * <p>
+     * The getFile is attached to the rightmost button left from the soundbar.
+     * It will open the FileExplorer and enable the user to open a mp4 File.
      *
      * @param actionEvent the event on buttonPress to be able to choose a mp4 File and play it through the MediaPlayer.
+     * @see #screenAdjuster() #screenAdjuster()
+     * @see #setVolume() #setVolume()
+     * @see #videoScrollBar() #videoScrollBar()
      */
     @FXML
     public void getFile(javafx.event.ActionEvent actionEvent) {
@@ -119,28 +125,37 @@ public class Controller implements Initializable {
                 screenAdjuster();
                 setVolume();
                 //Set the Slider vidScroller to the MediaPlayer
-                mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                    @Override
-                    public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
-                        //Making the Video Slider more dynamic depending on the Vid Length
-                        vidScroller.setMin(0.0);
-                        vidScroller.setMax(mp.getTotalDuration().toSeconds());
-                        vidScroller.setValue(currentPlayTime.toSeconds());
-                    }
-                });
+                videoScrollBar();
 
-                vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent event) {
-                        mp.seek(Duration.seconds(vidScroller.getValue()));
-                    }
-                });
                 mp.play();
             }
         } catch (Exception e) {
-                System.out.println(" Wrong File / No File chosen");
+            System.out.println(" Wrong File / No File chosen");
 
+        }
+    }
+
+    /**
+     * Sets the function for the video Scrollbar, which then enables the user to
+     * choose a specific playtime double clicking on the slider.
+     */
+    private void videoScrollBar() {
+        mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
+                //Making the Video Slider more dynamic depending on the Vid Length
+                vidScroller.setMin(0.0);
+                vidScroller.setMax(mp.getTotalDuration().toSeconds());
+                vidScroller.setValue(currentPlayTime.toSeconds());
             }
+        });
+
+        vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                mp.seek(Duration.seconds(vidScroller.getValue()));
+            }
+        });
     }
 
     /**
@@ -152,6 +167,15 @@ public class Controller implements Initializable {
         mp = new MediaPlayer(media);
         mediaViewer.setMediaPlayer(mp);
         //Getting the image to fit the width and height!
+        mediaViewFullScreen();
+
+    }
+
+
+    /**
+     * Media view auto Adjust to fullscreenSize
+     */
+    public void mediaViewFullScreen() {
         DoubleProperty width = mediaViewer.fitWidthProperty();
         DoubleProperty height = mediaViewer.fitHeightProperty();
         //Binding them to the width and height
@@ -268,6 +292,7 @@ public class Controller implements Initializable {
      */
     public void initialize(URL location, ResourceBundle resources) {
     }
+
 
     /**
      * Reload playlist.
