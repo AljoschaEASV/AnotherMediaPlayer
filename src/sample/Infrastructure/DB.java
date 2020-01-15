@@ -207,8 +207,8 @@ public class DB {
     /**
      * Get next value string.
      *
-     * @param view the view
-     * @return the string
+     * @param view boolean
+     * @return the value as String
      */
     private static String getNextValue(boolean view){
         StringBuilder value= new StringBuilder();

@@ -53,6 +53,12 @@
     -fx-background-position: center;
 }
 
+#openMediaPlay {
+    -fx-background-image: url("../Presentation/Ressources/mediaPlay.png");
+    -fx-background-size: 50 50;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
 
 
 

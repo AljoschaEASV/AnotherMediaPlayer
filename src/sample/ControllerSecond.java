@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import sample.Infrastructure.DB;
 
 /**
- * The type Controller second.
+ * The second controller for the playlist Viewer.
  */
 public class ControllerSecond {
     /**
@@ -45,16 +45,16 @@ public class ControllerSecond {
     TableColumn<MediaFile, String> category;
 
     /**
-     * The Title 2.
+     * The Title inside the playlist tableView.
      */
     @FXML
     TableColumn<MediaPlay, String> title2;
 
     /**
-     * The Number 2.
+     * the PlaylistOrdernumber.
      */
     @FXML
-    TableColumn<MediaPlay, String> number2;
+    TableColumn<MediaPlay, String> playlistOrderNumber;
 
     /**
      * The Playlist.
@@ -77,9 +77,9 @@ public class ControllerSecond {
      */
     private ObservableList<MediaFile> mediaFile = FXCollections.observableArrayList();
     /**
-     * The Media play.
+     * The Media play. Contains the Media Files
      */
-//Contains the Media Files
+
     private ObservableList<MediaPlay> mediaPlay = FXCollections.observableArrayList();
     /**
      * The Playlists.
@@ -92,17 +92,17 @@ public class ControllerSecond {
 
 
     /**
-     * This method initializes the Cell values.
+     * This method initializes the Cell values inside the playlistView stage.
+     * Using the different Observeable Lists and inputs it into the table.
      */
     public void initialize() {
         title.setCellValueFactory(new PropertyValueFactory<>("Title"));
         category.setCellValueFactory(new PropertyValueFactory<>("Category"));
 
         title2.setCellValueFactory(new PropertyValueFactory<>("Title"));
-        number2.setCellValueFactory(new PropertyValueFactory<>("OrderNo"));
+        playlistOrderNumber.setCellValueFactory(new PropertyValueFactory<>("OrderNo"));
         playlist.setCellValueFactory(new PropertyValueFactory<>("Playlist"));
 
-        // Here we make use of the observable list data and inputs it into the table.
         tbData.setItems(mediaFile);
         tbPlaylist.setItems(mediaPlay);
         comboPlaylist.setItems(playlists);
@@ -114,7 +114,7 @@ public class ControllerSecond {
     }
 
     /**
-     * Method to select and move a row from table containing the songs to a playlist
+     * Method to select and move a row from the mediaFiles table containing the songs to a playlist. "add song button"
      */
     public void select() {
         MediaFile selection = tbData.getSelectionModel().getSelectedItem();
@@ -159,7 +159,8 @@ public class ControllerSecond {
     }
 
     /**
-     * Delete entry.
+     * Delete entries from the playlist selecting a song inside a playlist and pressing the delete button.
+     * The song has to be choosen
      */
     public void deleteEntry() {
         MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
@@ -174,7 +175,7 @@ public class ControllerSecond {
     }
 
     /**
-     * Delete playlist.
+     * Delete playlist. Use the dumpster Button
      */
     public void deletePlaylist() {
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
@@ -187,7 +188,10 @@ public class ControllerSecond {
     }
 
     /**
-     * Move up.
+     * MoveUp enables the button on playlist Stage to move the selected song up inside the Playlist.
+     * And thereby change the order of the playlist
+     *
+     * @see #loadPlaylist()
      */
     public void moveUp() {
         MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
@@ -208,7 +212,7 @@ public class ControllerSecond {
     }
 
     /**
-     * Move down.
+     * @see #moveUp()
      */
     public void moveDown() {
         MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
@@ -231,7 +235,7 @@ public class ControllerSecond {
     }
 
     /**
-     * Load video list.
+     * (Re-)Load video list.
      */
     public void loadVideoList() {
         String entry = "";
@@ -252,12 +256,14 @@ public class ControllerSecond {
     }
 
     /**
-     * Filter.
+     * Adds the search function for the left textField to find a specific song inside the media Files.
+     *  2. Set the filter Predicate whenever the filter changes.
+     *  3. Wrap the FilteredList in a SortedList.
      */
     public void filter() {
         FilteredList<MediaFile> filteredData = new FilteredList<>(mediaFile, p -> true);
 
-        // 2. Set the filter Predicate whenever the filter changes.
+
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(mediaFile -> {
                 // If filter text is empty, display all
@@ -275,7 +281,7 @@ public class ControllerSecond {
             });
         });
 
-        // 3. Wrap the FilteredList in a SortedList.
+
         SortedList<MediaFile> sortedData = new SortedList<>(filteredData);
 
         // 4. Bind the SortedList comparator to the TableView comparator.
@@ -287,7 +293,7 @@ public class ControllerSecond {
     }
 
     /**
-     * Load playlist.
+     * Load playlist - Adds the functionality into the Combobox showing the Playlists inside the dropDown menu.
      */
     public void loadPlaylist() {
         String playlistName = String.valueOf(comboPlaylist.getSelectionModel().getSelectedItem());
@@ -337,11 +343,11 @@ public class ControllerSecond {
     }
 
     /**
-     * Open play list manager.
+     * Open the media Player from the Playlist manager.
      *
-     * @param event the event
+     * @param event show the mediaPlayer
      */
-    public void openPlayListManager(ActionEvent event) {
+    public void openMediaPlayer(ActionEvent event) {
 
         try {
             if (mediaPlayer == null) {
@@ -351,7 +357,7 @@ public class ControllerSecond {
 
                 mediaPlayer.setScene(new Scene(root2));
                 mediaPlayer.show();
-            }else if (mediaPlayer.isShowing()) {
+            } else if (mediaPlayer.isShowing()) {
                 mediaPlayer.toFront();
             }else {
                 mediaPlayer.show();
