@@ -29,9 +29,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 /**
  * The Media Player Controller.
- * Given the implementation of Initializable we can on Runtime
  */
 public class Controller implements Initializable {
 
@@ -41,16 +41,21 @@ public class Controller implements Initializable {
     @FXML
     private MediaView mediaViewer;
     /**
-     * The MediaPlayer.
+     * The Mp.
      */
-    private MediaPlayer mp;
+    private MediaPlayer mp, mp2;
     /**
-     * The Slider for Volume.
+     * The Mv.
+     */
+
+    private MediaView mv;
+    /**
+     * The Slider.
      */
     @FXML
     private JFXSlider slider;
     /**
-     * The Video scroll Slider.
+     * The Vid scroller.
      */
     @FXML
     private Slider vidScroller;
@@ -59,63 +64,88 @@ public class Controller implements Initializable {
      */
     private String filePath;
 
-    /**
-     * The scene for the Playlist manager.
-     */
     private Stage playlistManager;
 
-    /**
-     * The Playlistentries stored in an Obeservable List
-     *
-     * @see reloadPlaylistMethodfor further use.
-     */
+    private Media me;
+    private Media me2;
+
+    public ObservableList<MediaPlay> getPlaylistentries() {
+        return playlistentries;
+    }
+
+    public void setPlaylistentries(ObservableList<MediaPlay> playlistentries) {
+        this.playlistentries = playlistentries;
+    }
+
+    //Maincontroller.play(nextplayer) FOr implementing a new playbutton with other controller
+
+    public Controller() {
+        this.playlistentries = playlistentries;
+    }
+
     private ObservableList<MediaPlay> playlistentries = FXCollections.observableArrayList();
 
     /**
      * This method is gonna make a new window
      *
-     * @param event the event to open and check if opened the second Stage aka PlaylistManager.
+     * @param event the event
      */
     public void openPlayListManager(javafx.event.ActionEvent event) {
+
         try {
             if (playlistManager == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
+                fxmlLoader.setController(new ControllerSecond(this));
                 Parent root1 = fxmlLoader.load();
                 playlistManager = new Stage();
                 playlistManager.setTitle("BitPusher Playlist Manager");
                 playlistManager.setScene(new Scene(root1));
 
+
                 playlistManager.show();
-            } else if (playlistManager.isShowing())
-        {
-            playlistManager.toFront();
-        }else
-            {
+            } else if (playlistManager.isShowing()) {
+                playlistManager.toFront();
+            } else {
                 playlistManager.show();
             }
-    }catch (Exception e)
-    {
-        System.out.println("Can't load the window");
-    }
+
+
+        } catch (Exception e) {
+            System.out.println("Can't load the window");
+        }
     }
 
     /**
      * todo the actual Project has to have the filePath from the Database / Playlists.
-     * <p>
-     * The getFile is attached to the rightmost button left from the soundbar.
-     * It will open the FileExplorer and enable the user to open a mp4 File.
      *
-     * @param actionEvent the event on buttonPress to be able to choose a mp4 File and play it through the MediaPlayer.
-     * @see #screenAdjuster() #screenAdjuster()
-     * @see #setVolume() #setVolume()
-     * @see #videoScrollBar() #videoScrollBar()
+     * @param actionEvent the action event
      */
+    @FXML
+    public void song() {
+
+
+        String path = new File("src/sample/media/Adventure Glue.mp4").getAbsolutePath();
+
+
+        me2 = new Media(new File(path).toURI().toString());
+
+        mp2 = new MediaPlayer(me2);
+
+        mediaViewer.setMediaPlayer(mp2);
+
+
+    }
+
     @FXML
     public void getFile(javafx.event.ActionEvent actionEvent) {
         try {
+
+
             FileChooser fc = new FileChooser();
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter
                     ("Please select a File (*.mp4) ", "*.mp4");
+
+
             //This will get the mp4 File given the Filter as a File.
             fc.getExtensionFilters().add(filter);
             File file = fc.showOpenDialog(null);
@@ -125,57 +155,50 @@ public class Controller implements Initializable {
                 screenAdjuster();
                 setVolume();
                 //Set the Slider vidScroller to the MediaPlayer
-                videoScrollBar();
+                mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
+                        //Making the Video Slider more dynamic depending on the Vid Length
 
+                        vidScroller.setMin(0.0);
+                        vidScroller.setMax(mp.getTotalDuration().toSeconds());
+                        vidScroller.setValue(currentPlayTime.toSeconds());
+                    }
+                });
+
+                vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        mp.seek(Duration.seconds(vidScroller.getValue()));
+                    }
+                });
                 mp.play();
-            }
+
+
+            };
+
+
+
         } catch (Exception e) {
             System.out.println(" Wrong File / No File chosen");
-
         }
     }
 
-    /**
-     * Sets the function for the video Scrollbar, which then enables the user to
-     * choose a specific playtime double clicking on the slider.
-     */
-    private void videoScrollBar() {
-        mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
-                //Making the Video Slider more dynamic depending on the Vid Length
-                vidScroller.setMin(0.0);
-                vidScroller.setMax(mp.getTotalDuration().toSeconds());
-                vidScroller.setValue(currentPlayTime.toSeconds());
-            }
-        });
 
-        vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                mp.seek(Duration.seconds(vidScroller.getValue()));
-            }
-        });
-    }
+
+
+
 
     /**
      * Setting the Media file into the mediaPlayer and therefrom into the mediaViewer inside our application
-     * Also binds the mediaViewer to the size of the BorderPane
+     * Thereafter adding the size property which can cause trouble on some machines changing to fullscreen.
      */
     private void screenAdjuster() {
+
         Media media = new Media(filePath);
         mp = new MediaPlayer(media);
         mediaViewer.setMediaPlayer(mp);
         //Getting the image to fit the width and height!
-        mediaViewFullScreen();
-
-    }
-
-
-    /**
-     * Media view auto Adjust to fullscreenSize
-     */
-    public void mediaViewFullScreen() {
         DoubleProperty width = mediaViewer.fitWidthProperty();
         DoubleProperty height = mediaViewer.fitHeightProperty();
         //Binding them to the width and height
@@ -186,8 +209,7 @@ public class Controller implements Initializable {
     }
 
     /**
-     * Set the volume Sliders functions - Using the Slider through this method enables to controll the volume of
-     * the program.
+     * Set the volume Sliders functions.
      */
     private void setVolume() {
         //used to get a useable number for the called methods. Either 1-100 or 0-1.
@@ -223,7 +245,7 @@ public class Controller implements Initializable {
     /**
      * Play video.
      *
-     * @param event the event to play the video.
+     * @param event the event
      */
     @FXML
     private void playVideo(javafx.event.ActionEvent event) {
@@ -239,7 +261,7 @@ public class Controller implements Initializable {
     /**
      * Stop video.
      *
-     * @param event the event to dispose the media File from the Viewer & player
+     * @param event the event
      */
     @FXML
     private void stopVideo(javafx.event.ActionEvent event) {
@@ -254,7 +276,7 @@ public class Controller implements Initializable {
     /**
      * To start.
      *
-     * @param event the event to stop the player
+     * @param event the event
      */
     @FXML
     private void toStart(javafx.event.ActionEvent event) {
@@ -272,43 +294,25 @@ public class Controller implements Initializable {
      * @param event the event to exit the program
      */
     @FXML
-    private void exit(javafx.event.ActionEvent event) {
-        System.exit(0);
+    private void exit(javafx.event.ActionEvent event){
+            System.exit(0);
 
-    }
+        }
 
     @Override
-    /**
-     * Called to initialize a controller after its root element has been
-     * completely processed.
-     *
-     * @param location
-     * The location used to resolve relative paths for the root object, or
-     * <tt>null</tt> if the location is not known.
-     *
-     * @param resources
-     * The resources used to localize the root object, or <tt>null</tt> if
-     * the root object was not localized.
-     */
     public void initialize(URL location, ResourceBundle resources) {
     }
 
-
-    /**
-     * Enables the user to fetch the file in the given order from the playlist.
-     *
-     * @param playlistname the specifier to get the absolute path from mediaFiles inside a specific playlist.
-     */
-    public void reloadPlaylist(String playlistname) {
+    public void reloadPlaylist(String playlistname){
         playlistentries.clear();
         DB.selectSQL("select Video, OrderNo from tblVideoOrder where PlaylistName='" + playlistname + "' order by OrderNo asc");
         String entry = "";
-        String video = "";
-        String orderNo = "";
-        do {
+        String video="";
+        String orderNo="";
+        do{
             entry = DB.getData();
-            if (!entry.equals("|ND|")) video = entry;
-            entry = DB.getData();
+            if(!entry.equals("|ND|"))video = entry;
+            entry=DB.getData();
             if(!entry.equals("|ND|")) {
                 orderNo = entry;
                 playlistentries.add(new MediaPlay(video, orderNo, playlistname));
@@ -325,6 +329,8 @@ public class Controller implements Initializable {
 
 
     }
+
+
 
 
 }
