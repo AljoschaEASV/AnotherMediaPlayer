@@ -187,7 +187,7 @@ public class Controller implements Initializable {
        mediaViewFullScreen();
        videoScrollBar();
         setVolume();
-
+//
 
 
     }
