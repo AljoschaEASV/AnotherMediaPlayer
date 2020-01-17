@@ -27,6 +27,8 @@ import sample.Infrastructure.DB;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -43,7 +45,7 @@ public class Controller implements Initializable {
     /**
      * The MediaPlayer.
      */
-    private MediaPlayer mp;
+    private MediaPlayer mp, mp2;
     /**
      * The Slider for Volume.
      */
@@ -59,10 +61,22 @@ public class Controller implements Initializable {
      */
     private String filePath;
 
+    private MediaPlayer currentPlayer = null;
+
+    private MediaPlayer nextPlayer = null;
+
     /**
      * The scene for the Playlist manager.
      */
     private Stage playlistManager;
+
+
+    private Controller secondController;
+
+    public Controller(Controller secondController)
+    {
+        this.secondController = secondController;
+    }
 
     private Media me, me2;
 
@@ -83,7 +97,7 @@ public class Controller implements Initializable {
     /**
      * The Playlistentries stored in an Obeservable List
      *
-     * @see #reloadPlaylistMethodfor further use.
+     * @see #reloadPlaylist further use.
      */
     private ObservableList<MediaPlay> playlistentries = FXCollections.observableArrayList();
 
@@ -96,6 +110,7 @@ public class Controller implements Initializable {
         try {
             if (playlistManager == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
+                fxmlLoader.setController(new ControllerSecond(this));
                 Parent root1 = fxmlLoader.load();
                 playlistManager = new Stage();
                 playlistManager.setTitle("BitPusher Playlist Manager");
@@ -123,6 +138,80 @@ public class Controller implements Initializable {
      * @see #setVolume() #setVolume()
      * @see #videoScrollBar() #videoScrollBar()
      */
+
+    /**
+     * todo the actual Project has to have the filePath from the Database / Playlists.
+     *
+     *
+     */
+    @FXML
+    public void song() {
+        try {
+
+
+
+        List<MediaPlayer> playlist = Arrays.asList(
+                new MediaPlayer(new Media(new File(new File("src/sample/media/30 Seconds  Edition Three  Devon Stern.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/30 Seconds  Edition Two  Matt Frodsham.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/30sec.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/Adventure Glue.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/Body Patterns.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/C_Spyro02_SkelosBadlandsIntro.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/Koena Animation — 30 Sec.mp4").getAbsolutePath()).toURI().toString())),
+                new MediaPlayer(new Media(new File(new File("src/sample/media/Liquid Landscapes  30sec Edition Five.mp4").getAbsolutePath()).toURI().toString()))
+                );
+
+
+
+        for (int i = 0; i < playlist.size() ; i++) {
+            final MediaPlayer currentPlayer = playlist.get(i);
+            final MediaPlayer nextPlayer = playlist.get((i+1)%playlist.size());
+
+            currentPlayer.setOnEndOfMedia(() -> {
+                currentPlayer.stop();
+                mediaViewer.setMediaPlayer(nextPlayer);
+                nextPlayer.play();
+
+            });
+
+        }
+        mediaViewer.setMediaPlayer(playlist.get(0));
+
+        //String path = new File("src/sample/media/Adventure Glue.mp4").getAbsolutePath();
+
+
+      //  me = new Media(new File(path).toURI().toString());
+
+      //  mp = new MediaPlayer(me);
+
+        //mediaViewer.setMediaPlayer(mp);
+
+        //mp.setAutoPlay(true);
+       mediaViewFullScreen();
+       //videoScrollBar();
+       // setVolume();
+           videoScrollBarForPlaylist();
+        }catch (Exception e)
+        {
+            System.out.println("Getting error");
+        }
+
+    }
+
+
+    private void videoScrollBarForPlaylist() {
+        mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
+                //Making the Video Slider more dynamic depending on the Vid Length
+                vidScroller.setMin(0.0);
+                vidScroller.setMax(nextPlayer.getTotalDuration().toSeconds());
+                vidScroller.setValue(currentPlayTime.toSeconds());
+            }
+        });
+    }
+
+
     @FXML
     public void getFile(javafx.event.ActionEvent actionEvent) {
         try {
@@ -241,6 +330,7 @@ public class Controller implements Initializable {
     @FXML
     private void playVideo(javafx.event.ActionEvent event) {
         try {
+            mediaViewer.getMediaPlayer().play();
             mp.play();
 
         } catch (Exception e) {
@@ -273,6 +363,7 @@ public class Controller implements Initializable {
     private void toStart(javafx.event.ActionEvent event) {
         try {
             mp.stop();
+
 
         } catch (Exception e) {
             System.out.println(" No file found");

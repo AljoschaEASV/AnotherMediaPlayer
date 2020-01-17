@@ -230,7 +230,7 @@ public class ControllerSecond {
     public void filter(){
         FilteredList<MediaFile> filteredData = new FilteredList<>(mediaFile, p -> true);
 
-        // 2. Set the filter Predicate whenever the filter changes.
+        //  Set the filter Predicate whenever the filter changes.
         filterField.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredData.setPredicate(mediaFile -> {
                 // If filter text is empty, display all
@@ -248,14 +248,14 @@ public class ControllerSecond {
             });
         });
 
-        // 3. Wrap the FilteredList in a SortedList.
+        //  Wrap the FilteredList in a SortedList.
         SortedList<MediaFile> sortedData = new SortedList<>(filteredData);
 
-        // 4. Bind the SortedList comparator to the TableView comparator.
+        //  Bind the SortedList comparator to the TableView comparator.
         // 	  Otherwise, sorting the TableView would have no effect.
         sortedData.comparatorProperty().bind(tbData.comparatorProperty());
 
-        // 5. Add sorted (and filtered) data to the table.
+        //  Add sorted (and filtered) data to the table.
         tbData.setItems(sortedData);
     }
 
@@ -308,7 +308,9 @@ public class ControllerSecond {
             if (mediaPlayer == null)
             {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+
                 Parent root2 = fxmlLoader.load();
+
                 mediaPlayer = new Stage();
 
                 mediaPlayer.setScene(new Scene(root2));
@@ -349,7 +351,7 @@ public class ControllerSecond {
     @FXML
 
    public void playSongChoice(MouseEvent event) {
-    Controller test = new Controller();
+
     try {
 
 
@@ -359,8 +361,9 @@ public class ControllerSecond {
         public void handle(MouseEvent event) {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 if (event.getClickCount() == 2) {
-                    System.out.println("Double clicked");
+                    System.out.println("Song playing " + title.toString());
                     mainController.song();
+
                 }
 
             }
@@ -373,6 +376,11 @@ public class ControllerSecond {
 
     }
 
+
+    public void startSong()
+    {
+
+    }
     //new seton mouseclick metode
 
 }
