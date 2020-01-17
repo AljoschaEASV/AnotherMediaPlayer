@@ -27,6 +27,7 @@ import sample.Infrastructure.DB;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -61,9 +62,9 @@ public class Controller implements Initializable {
      */
     private String filePath;
 
-    private MediaPlayer currentPlayer = null;
+    private MediaPlayer currentPlayer;
 
-    private MediaPlayer nextPlayer = null;
+    private MediaPlayer nextPlayer;
 
     /**
      * The scene for the Playlist manager.
@@ -113,7 +114,7 @@ public class Controller implements Initializable {
                 fxmlLoader.setController(new ControllerSecond(this));
                 Parent root1 = fxmlLoader.load();
                 playlistManager = new Stage();
-                playlistManager.setTitle("BitPusher Playlist Manager");
+                playlistManager.setTitle("Playlist Manager");
                 playlistManager.setScene(new Scene(root1));
 
                 playlistManager.show();
@@ -145,21 +146,14 @@ public class Controller implements Initializable {
      *
      */
     @FXML
-    public void song() {
-        try {
+    public void song(List<String> paths, String title) {
 
 
+            List<MediaPlayer> playlist = new ArrayList<MediaPlayer>();
+        for (int i = 0; i < paths.size() ; i++) {
+            playlist.add(new MediaPlayer(new Media(new File(new File(paths.get(i)).getAbsolutePath()).toURI().toString())));
+        }
 
-        List<MediaPlayer> playlist = Arrays.asList(
-                new MediaPlayer(new Media(new File(new File("src/sample/media/30 Seconds  Edition Three  Devon Stern.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/30 Seconds  Edition Two  Matt Frodsham.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/30sec.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/Adventure Glue.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/Body Patterns.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/C_Spyro02_SkelosBadlandsIntro.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/Koena Animation — 30 Sec.mp4").getAbsolutePath()).toURI().toString())),
-                new MediaPlayer(new Media(new File(new File("src/sample/media/Liquid Landscapes  30sec Edition Five.mp4").getAbsolutePath()).toURI().toString()))
-                );
 
 
 
@@ -171,11 +165,14 @@ public class Controller implements Initializable {
                 currentPlayer.stop();
                 mediaViewer.setMediaPlayer(nextPlayer);
                 nextPlayer.play();
-
+                videoScrollBarForPlaylist();
             });
 
         }
-        mediaViewer.setMediaPlayer(playlist.get(0));
+        System.out.println(title);
+        int startIndex = paths.indexOf(new File("src/sample/media/" + title).getAbsolutePath());
+
+        mediaViewer.setMediaPlayer(playlist.get(startIndex));
 
         //String path = new File("src/sample/media/Adventure Glue.mp4").getAbsolutePath();
 
@@ -188,24 +185,23 @@ public class Controller implements Initializable {
 
         //mp.setAutoPlay(true);
        mediaViewFullScreen();
-       //videoScrollBar();
-       // setVolume();
-           videoScrollBarForPlaylist();
-        }catch (Exception e)
-        {
-            System.out.println("Getting error");
-        }
+       videoScrollBar();
+        setVolume();
+
+
 
     }
 
 
+
+
     private void videoScrollBarForPlaylist() {
-        mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+        mediaViewer.getMediaPlayer().currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
                 //Making the Video Slider more dynamic depending on the Vid Length
                 vidScroller.setMin(0.0);
-                vidScroller.setMax(nextPlayer.getTotalDuration().toSeconds());
+                vidScroller.setMax(mediaViewer.getMediaPlayer().getTotalDuration().toSeconds());
                 vidScroller.setValue(currentPlayTime.toSeconds());
             }
         });
@@ -229,7 +225,7 @@ public class Controller implements Initializable {
                 //Set the Slider vidScroller to the MediaPlayer
                 videoScrollBar();
 
-                mp.play();
+                mediaViewer.getMediaPlayer().play();
             }
         } catch (Exception e) {
             System.out.println(" Wrong File / No File chosen");
@@ -242,12 +238,12 @@ public class Controller implements Initializable {
      * choose a specific playtime double clicking on the slider.
      */
     private void videoScrollBar() {
-        mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+        mediaViewer.getMediaPlayer().currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
                 //Making the Video Slider more dynamic depending on the Vid Length
                 vidScroller.setMin(0.0);
-                vidScroller.setMax(mp.getTotalDuration().toSeconds());
+                vidScroller.setMax(mediaViewer.getMediaPlayer().getTotalDuration().toSeconds());
                 vidScroller.setValue(currentPlayTime.toSeconds());
             }
         });
@@ -255,7 +251,7 @@ public class Controller implements Initializable {
         vidScroller.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                mp.seek(Duration.seconds(vidScroller.getValue()));
+                mediaViewer.getMediaPlayer().seek(Duration.seconds(vidScroller.getValue()));
             }
         });
     }
@@ -295,12 +291,12 @@ public class Controller implements Initializable {
         //used to get a useable number for the called methods. Either 1-100 or 0-1.
         int sizeChanger = 100;
         //Setting the Function
-        slider.setValue(mp.getVolume() * sizeChanger);
+        slider.setValue(mediaViewer.getMediaPlayer().getVolume() * sizeChanger);
         slider.valueProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 //The set Value supports number from 0.1 - 1 Therefore we divide by 100
-                mp.setVolume(slider.getValue() / sizeChanger);
+                mediaViewer.getMediaPlayer().setVolume(slider.getValue() / sizeChanger);
 
             }
         });
@@ -314,10 +310,11 @@ public class Controller implements Initializable {
     @FXML
     private void pauseVideo(javafx.event.ActionEvent event) {
         try {
-            mp.pause();
+            mediaViewer.getMediaPlayer().pause();
+
 
         } catch (Exception e) {
-            System.out.println("Please insert a file to pause it. ");
+            System.out.println("error");
 
         }
     }
@@ -331,7 +328,7 @@ public class Controller implements Initializable {
     private void playVideo(javafx.event.ActionEvent event) {
         try {
             mediaViewer.getMediaPlayer().play();
-            mp.play();
+
 
         } catch (Exception e) {
             System.out.println("Please insert a file to play from. ");
@@ -347,7 +344,9 @@ public class Controller implements Initializable {
     @FXML
     private void stopVideo(javafx.event.ActionEvent event) {
         try {
-            mp.dispose();
+
+            mediaViewer.getMediaPlayer().dispose();
+
 
         } catch (Exception e) {
             System.out.println(" No file found");
@@ -362,7 +361,9 @@ public class Controller implements Initializable {
     @FXML
     private void toStart(javafx.event.ActionEvent event) {
         try {
-            mp.stop();
+
+            mediaViewer.getMediaPlayer().stop();
+
 
 
         } catch (Exception e) {

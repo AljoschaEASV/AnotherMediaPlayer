@@ -18,11 +18,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sample.Infrastructure.DB;
 
 import javax.swing.plaf.basic.BasicTreeUI;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type Controller second.
@@ -356,19 +361,61 @@ public class ControllerSecond {
 
 
 
-    tbData.setOnMouseClicked(new EventHandler<MouseEvent>() {
+    tbPlaylist.setOnMouseClicked(new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent event) {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 if (event.getClickCount() == 2) {
-                    System.out.println("Song playing " + title.toString());
-                    mainController.song();
+                   // System.out.println("Song playing " + title.toString());
+                        List <String> paths = new ArrayList<>();
+
+                    DB.selectSQL("Select  AbsolutePath from tblVideos where Category = '" + comboPlaylist.getSelectionModel().getSelectedItem()+"'");
+                    while (true) {
+                        String path = DB.getData();
+
+                        if (path.equals("|ND|")) {
+                            break;
+                        }
+                        System.out.println(path);
+                        paths.add(path);
+                    }
+                    mainController.song(paths, tbPlaylist.getSelectionModel().getSelectedItem().getTitle());
 
                 }
 
             }
         }
     });
+
+        tbData.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if(event.getButton().equals(MouseButton.PRIMARY)) {
+                    if (event.getClickCount() == 2) {
+                        // System.out.println("Song playing " + title.toString());
+                        List<String> paths = new ArrayList<String>();
+                        DB.selectSQL("Select AbsolutePath from tblVideos");
+                        while (true) {
+                            String path = DB.getData();
+
+                            if (path.equals("|ND|")) {
+                                break;
+                            }
+                            System.out.println(path);
+                            paths.add(path);
+                        }
+                        mainController.song(paths, tbData.getSelectionModel().getSelectedItem().getTitle());
+                        System.out.println("Something");
+
+                    }
+
+                }
+            }
+        });
+
+
+
+
     }catch (NullPointerException e)
     {
         System.out.println("Error");
@@ -377,10 +424,6 @@ public class ControllerSecond {
     }
 
 
-    public void startSong()
-    {
 
-    }
-    //new seton mouseclick metode
 
 }

@@ -21,7 +21,7 @@ public class Main extends Application {
         preloader();
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("BitPusher MediaPlayer");
+        primaryStage.setTitle("MediaPlayer");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
         primaryStage.setMinWidth(600);
