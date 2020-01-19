@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -38,6 +39,10 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
+
+
+    @FXML
+    private BorderPane borderPane;
     /**
      * The Media viewer.
      */
@@ -72,14 +77,11 @@ public class Controller implements Initializable {
     private Stage playlistManager;
 
 
-    private Controller secondController;
 
-    public Controller(Controller secondController)
-    {
-        this.secondController = secondController;
-    }
 
-    private Media me, me2;
+
+
+
 
     public ObservableList<MediaPlay> getPlaylistentries() {
         return playlistentries;
@@ -152,6 +154,7 @@ public class Controller implements Initializable {
 
 
             List<MediaPlayer> playlist = new ArrayList<MediaPlayer>();
+
         for (int i = 0; i < paths.size() ; i++) {
             playlist.add(new MediaPlayer(new Media(new File(new File(paths.get(i)).getAbsolutePath()).toURI().toString())));
         }
@@ -267,13 +270,15 @@ public class Controller implements Initializable {
      * Media view auto Adjust to fullscreenSize
      */
     public void mediaViewFullScreen() {
+
         DoubleProperty width = mediaViewer.fitWidthProperty();
         DoubleProperty height = mediaViewer.fitHeightProperty();
-        //Binding them to the width and height
-        //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-        // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
-        width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+
+            borderPane.setStyle("-fx-background-color: black");
+            //Binding them to the width and height
+            width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
+            height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+
     }
 
     /**

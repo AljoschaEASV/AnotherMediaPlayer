@@ -306,7 +306,7 @@ public class ControllerSecond {
         }
     }
 
-    public void openPlayListManager(ActionEvent event) {
+    public void openMediaPlayer(ActionEvent event) {
 
         try
         {
@@ -319,6 +319,8 @@ public class ControllerSecond {
                 mediaPlayer = new Stage();
 
                 mediaPlayer.setScene(new Scene(root2));
+                mediaPlayer.setMinHeight(600);
+                mediaPlayer.setMinWidth(600);
                 mediaPlayer.show();
             }else if (mediaPlayer.isShowing())
             {
@@ -338,20 +340,7 @@ public class ControllerSecond {
         }
 
     }
-/*
-    public void chooseMusic() {
-        tbData.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Controller entries = new Controller();
-                tbPlaylist.getItems();
 
-                DB.selectSQL("select AbsolutePath from tblVideos where Title='" + entries.getPlaylistentries() + "");
-            }
-        });
-
-    }
- */
 
     @FXML
 
@@ -366,10 +355,10 @@ public class ControllerSecond {
         public void handle(MouseEvent event) {
             if(event.getButton().equals(MouseButton.PRIMARY)) {
                 if (event.getClickCount() == 2) {
-                   // System.out.println("Song playing " + title.toString());
+
                         List <String> paths = new ArrayList<>();
 
-                    DB.selectSQL("Select  AbsolutePath from tblVideos where Category = '" + comboPlaylist.getSelectionModel().getSelectedItem()+"'");
+                    DB.selectSQL("Select AbsolutePath from tblVideos where Category = '" + comboPlaylist.getSelectionModel().getSelectedItem()+"'");
                     while (true) {
                         String path = DB.getData();
 
