@@ -388,28 +388,28 @@ public class ControllerSecond {
     });
 //
         tbData.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                if(event.getButton().equals(MouseButton.PRIMARY)) {
-                    if (event.getClickCount() == 2) {
-                        // System.out.println("Song playing " + title.toString());
-                        List<String> paths = new ArrayList<String>();
-                        DB.selectSQL("Select AbsolutePath from tblVideos");
-                        while (true) {
-                            String path = DB.getData();
+                    @Override
+                    public void handle(MouseEvent event) {
+                        if(event.getButton().equals(MouseButton.PRIMARY)) {
+                            if (event.getClickCount() == 2) {
+                                // System.out.println("Song playing " + title.toString());
+                                List<String> paths = new ArrayList<String>();
+                                DB.selectSQL("Select AbsolutePath from tblVideos");
+                                while (true) {
+                                    String path = DB.getData();
 
-                            if (path.equals("|ND|")) {
-                                break;
+                                    if (path.equals("|ND|")) {
+                                        break;
+                                    }
+                                    System.out.println(path);
+                                    paths.add(path);
+                                }
+                                mainController.song(paths, tbData.getSelectionModel().getSelectedItem().getTitle());
+                                System.out.println("Something");
+
                             }
-                            System.out.println(path);
-                            paths.add(path);
+
                         }
-                        mainController.song(paths, tbData.getSelectionModel().getSelectedItem().getTitle());
-                        System.out.println("Something");
-
-                    }
-
-                }
             }
         });
 

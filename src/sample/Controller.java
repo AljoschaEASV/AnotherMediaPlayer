@@ -113,9 +113,11 @@ public class Controller implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
                 fxmlLoader.setController(new ControllerSecond(this));
                 Parent root1 = fxmlLoader.load();
+
                 playlistManager = new Stage();
                 playlistManager.setTitle("Playlist Manager");
                 playlistManager.setScene(new Scene(root1));
+                playlistManager.setResizable(false);
 
                 playlistManager.show();
             } else if (playlistManager.isShowing()) {
@@ -174,16 +176,7 @@ public class Controller implements Initializable {
 
         mediaViewer.setMediaPlayer(playlist.get(startIndex));
 
-        //String path = new File("src/sample/media/Adventure Glue.mp4").getAbsolutePath();
 
-
-      //  me = new Media(new File(path).toURI().toString());
-
-      //  mp = new MediaPlayer(me);
-
-        //mediaViewer.setMediaPlayer(mp);
-
-        //mp.setAutoPlay(true);
        mediaViewFullScreen();
        videoScrollBar();
         setVolume();
@@ -420,14 +413,6 @@ public class Controller implements Initializable {
             }
             entry = DB.getData();
         } while (!entry.equals("|ND|"));
-
-        /*
-        DB.selectSQL("select AbsolutePath from tblVideos where Title='" + playlistentries.get(0).getTitle() + "'");
-        String entry = DB.getData();
-        play(entry);
-
-         */
-
 
     }
 
