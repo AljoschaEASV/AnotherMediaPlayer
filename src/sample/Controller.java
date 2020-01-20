@@ -17,7 +17,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -39,10 +38,6 @@ import java.util.ResourceBundle;
  */
 public class Controller implements Initializable {
 
-
-
-    @FXML
-    private BorderPane borderPane;
     /**
      * The Media viewer.
      */
@@ -67,9 +62,9 @@ public class Controller implements Initializable {
      */
     private String filePath;
 
-    private MediaPlayer currentPlayer;
+    private MediaPlayer currentPlayer = null;
 
-    private MediaPlayer nextPlayer;
+    private MediaPlayer nextPlayer = null;
 
     /**
      * The scene for the Playlist manager.
@@ -77,11 +72,14 @@ public class Controller implements Initializable {
     private Stage playlistManager;
 
 
+    private Controller secondController;
 
+    public Controller(Controller secondController)
+    {
+        this.secondController = secondController;
+    }
 
-
-
-
+    private Media me, me2;
 
     public ObservableList<MediaPlay> getPlaylistentries() {
         return playlistentries;
@@ -115,11 +113,9 @@ public class Controller implements Initializable {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("secondWindow.fxml"));
                 fxmlLoader.setController(new ControllerSecond(this));
                 Parent root1 = fxmlLoader.load();
-
                 playlistManager = new Stage();
-                playlistManager.setTitle("Playlist Manager");
+                playlistManager.setTitle("BitPusher Playlist Manager");
                 playlistManager.setScene(new Scene(root1));
-                playlistManager.setResizable(false);
 
                 playlistManager.show();
             } else if (playlistManager.isShowing()) {
@@ -150,54 +146,23 @@ public class Controller implements Initializable {
      *
      */
     @FXML
-    public void song(List<String> paths, String title) {
-
-
-            List<MediaPlayer> playlist = new ArrayList<MediaPlayer>();
-
-        for (int i = 0; i < paths.size() ; i++) {
-            playlist.add(new MediaPlayer(new Media(new File(new File(paths.get(i)).getAbsolutePath()).toURI().toString())));
-        }
-
-
-
-
-        for (int i = 0; i < playlist.size() ; i++) {
-            final MediaPlayer currentPlayer = playlist.get(i);
-            final MediaPlayer nextPlayer = playlist.get((i+1)%playlist.size());
-
-            currentPlayer.setOnEndOfMedia(() -> {
-                currentPlayer.stop();
-                mediaViewer.setMediaPlayer(nextPlayer);
-                nextPlayer.play();
-                videoScrollBarForPlaylist();
-            });
-
-        }
-        System.out.println(title);
-        int startIndex = paths.indexOf(new File("src/sample/media/" + title).getAbsolutePath());
-
-        mediaViewer.setMediaPlayer(playlist.get(startIndex));
-
-
-       mediaViewFullScreen();
-       videoScrollBar();
+    public void runSingleChoice(MediaFile selection) {
+        MediaPlayer temp = new MediaPlayer(new Media(new File(new File("src/sample/media/" + selection.getTitle()).getAbsolutePath()).toURI().toString()));
+        mediaViewer.setMediaPlayer(temp);
+        mediaViewFullScreen();
         setVolume();
-
-
-
+        videoScrollBar();
+        mediaViewer.getMediaPlayer().play();
     }
 
 
-
-
     private void videoScrollBarForPlaylist() {
-        mediaViewer.getMediaPlayer().currentTimeProperty().addListener(new ChangeListener<Duration>() {
+        mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration currentPlayTime) {
                 //Making the Video Slider more dynamic depending on the Vid Length
                 vidScroller.setMin(0.0);
-                vidScroller.setMax(mediaViewer.getMediaPlayer().getTotalDuration().toSeconds());
+                vidScroller.setMax(nextPlayer.getTotalDuration().toSeconds());
                 vidScroller.setValue(currentPlayTime.toSeconds());
             }
         });
@@ -221,7 +186,7 @@ public class Controller implements Initializable {
                 //Set the Slider vidScroller to the MediaPlayer
                 videoScrollBar();
 
-                mediaViewer.getMediaPlayer().play();
+                mp.play();
             }
         } catch (Exception e) {
             System.out.println(" Wrong File / No File chosen");
@@ -270,15 +235,13 @@ public class Controller implements Initializable {
      * Media view auto Adjust to fullscreenSize
      */
     public void mediaViewFullScreen() {
-
         DoubleProperty width = mediaViewer.fitWidthProperty();
         DoubleProperty height = mediaViewer.fitHeightProperty();
-
-            borderPane.setStyle("-fx-background-color: black");
-            //Binding them to the width and height
-            width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-            height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
-
+        //Binding them to the width and height
+        //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
+        // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+        width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
+        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
     }
 
     /**
@@ -300,6 +263,18 @@ public class Controller implements Initializable {
         });
     }
 
+    private void setSpecificVolume(MediaPlayer mpl){
+        int sizeChanger = 100;
+        slider.setValue(mpl.getVolume() * sizeChanger);
+        slider.valueProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                //The set Value supports number from 0.1 - 1 Therefore we divide by 100
+                mpl.setVolume(slider.getValue() / sizeChanger);
+            }
+        });
+    }
+
     /**
      * Pause video.
      *
@@ -310,9 +285,8 @@ public class Controller implements Initializable {
         try {
             mediaViewer.getMediaPlayer().pause();
 
-
         } catch (Exception e) {
-            System.out.println("error");
+            System.out.println("Please insert a file to pause it. ");
 
         }
     }
@@ -326,7 +300,6 @@ public class Controller implements Initializable {
     private void playVideo(javafx.event.ActionEvent event) {
         try {
             mediaViewer.getMediaPlayer().play();
-
 
         } catch (Exception e) {
             System.out.println("Please insert a file to play from. ");
@@ -342,9 +315,7 @@ public class Controller implements Initializable {
     @FXML
     private void stopVideo(javafx.event.ActionEvent event) {
         try {
-
-            mediaViewer.getMediaPlayer().dispose();
-
+            mediaViewer.getMediaPlayer().stop();
 
         } catch (Exception e) {
             System.out.println(" No file found");
@@ -359,10 +330,8 @@ public class Controller implements Initializable {
     @FXML
     private void toStart(javafx.event.ActionEvent event) {
         try {
-
             mediaViewer.getMediaPlayer().stop();
-
-
+            mediaViewer.getMediaPlayer().play();
 
         } catch (Exception e) {
             System.out.println(" No file found");
@@ -419,9 +388,47 @@ public class Controller implements Initializable {
             entry = DB.getData();
         } while (!entry.equals("|ND|"));
 
+        /*
+        DB.selectSQL("select AbsolutePath from tblVideos where Title='" + playlistentries.get(0).getTitle() + "'");
+        String entry = DB.getData();
+        play(entry);
+
+         */
+
+
     }
 
+    public void runListChoice(MediaPlay selection){
 
+        ArrayList<MediaPlayer> videos = new ArrayList<>();
+        videos.add(new MediaPlayer(new Media(new File(new File("src/sample/media/" + selection.getTitle()).getAbsolutePath()).toURI().toString())));
+        DB.selectSQL("select Video from tblVideoOrder where PlaylistName='" + selection.getPlaylist() + "' and OrderNo>" + selection.getOrderNo() + " order by OrderNo asc");
+        String entry = DB.getData();
+        while(!entry.equals("|ND|")){
+            videos.add(new MediaPlayer(new Media(new File(new File("src/sample/media/" + entry).getAbsolutePath()).toURI().toString())));
+            entry=DB.getData();
+        }
+
+        for (int i = 0; i < videos.size()-1 ; i++) {
+            final MediaPlayer currentPlayer = videos.get(i);
+            final MediaPlayer nextPlayer = videos.get(i+1);
+
+            currentPlayer.setOnEndOfMedia(() -> {
+                currentPlayer.stop();
+                mediaViewer.setMediaPlayer(nextPlayer);
+                mediaViewFullScreen();
+                setVolume();
+                videoScrollBar();
+                nextPlayer.play();
+            });
+        }
+
+        mediaViewer.setMediaPlayer(videos.get(0));
+        mediaViewFullScreen();
+        setVolume();
+        videoScrollBar();
+        mediaViewer.getMediaPlayer().play();
+    }
 }
 
 

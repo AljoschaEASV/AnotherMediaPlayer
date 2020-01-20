@@ -12,10 +12,10 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="320.0" minWidth="760.0" prefHeight="327.0" prefWidth="762.0" stylesheets="@Presentation/PlayListStyles.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="320.0" minWidth="760.0" prefHeight="327.0" prefWidth="762.0" stylesheets="@Presentation/PlayListStyles.css" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <JFXButton fx:id="deletePlaylist" layoutX="608.0" layoutY="7.0" onAction="#deletePlaylist" prefHeight="50.0" prefWidth="50.0" text="¨," />
-        <TableView fx:id="tbData" editable="true" layoutX="14.0" layoutY="61.0" onMouseClicked="#playSongChoice" prefHeight="253.0" prefWidth="234.0">
+        <TableView fx:id="tbData" editable="true" layoutX="14.0" layoutY="61.0" onMouseClicked="#runSingleChoice" prefHeight="253.0" prefWidth="234.0">
             <columns>
                 <TableColumn fx:id="title" prefWidth="117.0" style="-fx-background-color: transparent;" text="Title" />
                 <TableColumn fx:id="category" prefWidth="117.0" style="-fx-background-color: transparent;" text="Category" />
@@ -27,7 +27,7 @@
         <Button fx:id="ArrowLeft" layoutX="277.0" layoutY="196.0" mnemonicParsing="false" onAction="#deleteEntry" prefHeight="59.0" prefWidth="52.0" />
         <Button fx:id="ArrowRight" layoutX="277.0" layoutY="137.0" mnemonicParsing="false" onAction="#select" prefHeight="59.0" prefWidth="52.0" />
         <JFXTextField fx:id="filterField" layoutX="15.0" layoutY="21.0" onKeyPressed="#filter" prefHeight="31.0" prefWidth="234.0" promptText="Search for title or category" />
-        <TableView fx:id="tbPlaylist" layoutX="358.0" layoutY="61.0" prefHeight="253.0" prefWidth="295.0">
+        <TableView fx:id="tbPlaylist" layoutX="358.0" layoutY="61.0" onMouseClicked="#runListChoice" prefHeight="253.0" prefWidth="295.0">
             <columns>
                 <TableColumn fx:id="title2" prefWidth="125.0" style="-fx-background-color: transparent;" text="Title" />
                 <TableColumn fx:id="number2" prefWidth="58.0" style="-fx-background-color: transparent;" text="OrderNo" />
