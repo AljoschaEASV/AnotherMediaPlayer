@@ -37,6 +37,9 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * This is a method that will be executed every time we open the program, that goes through the database
+     */
     public static void preloader() {
         File[] videos = new File("src/sample/media/").listFiles();
         ArrayList<String> titles = new ArrayList<String>();
@@ -78,6 +81,9 @@ public class Main extends Application {
         if(deletion) arrangeVideoOrder();
     }
 
+    /**
+     * This will arrange the video order by nr
+     */
     public static void arrangeVideoOrder(){
         ArrayList<String> playLists = new ArrayList<>();
         ArrayList<OrderStruct> structs = new ArrayList<>();

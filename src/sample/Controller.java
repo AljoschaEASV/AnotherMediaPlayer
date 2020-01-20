@@ -46,7 +46,7 @@ public class Controller implements Initializable {
     /**
      * The MediaPlayer.
      */
-    private MediaPlayer mp, mp2;
+    private MediaPlayer mp;
     /**
      * The Slider for Volume.
      */
@@ -143,7 +143,7 @@ public class Controller implements Initializable {
 
     /**
      * todo the actual Project has to have the filePath from the Database / Playlists.
-     *
+     *This will play one song when this is executed
      *
      */
     @FXML
@@ -243,11 +243,6 @@ public class Controller implements Initializable {
     public void mediaViewFullScreen() {
         DoubleProperty width = mediaViewer.fitWidthProperty();
        DoubleProperty height = mediaViewer.fitHeightProperty();
-
-
-        //Binding them to the width and height
-        //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-        // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
         width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
 
