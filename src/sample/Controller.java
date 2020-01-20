@@ -114,8 +114,9 @@ public class Controller implements Initializable {
                 fxmlLoader.setController(new ControllerSecond(this));
                 Parent root1 = fxmlLoader.load();
                 playlistManager = new Stage();
-                playlistManager.setTitle("BitPusher Playlist Manager");
+                playlistManager.setTitle("Playlist Manager");
                 playlistManager.setScene(new Scene(root1));
+                playlistManager.setResizable(false);
 
                 playlistManager.show();
             } else if (playlistManager.isShowing()) {
@@ -155,7 +156,9 @@ public class Controller implements Initializable {
         mediaViewer.getMediaPlayer().play();
     }
 
-
+    /**
+     * This is the property for the video scrollbar that will show the current playtime of a video
+     */
     private void videoScrollBarForPlaylist() {
         mp.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
@@ -168,7 +171,10 @@ public class Controller implements Initializable {
         });
     }
 
-
+    /**
+     * This is for choosing a single mp4 video
+     * @param actionEvent
+     */
     @FXML
     public void getFile(javafx.event.ActionEvent actionEvent) {
         try {
@@ -236,12 +242,16 @@ public class Controller implements Initializable {
      */
     public void mediaViewFullScreen() {
         DoubleProperty width = mediaViewer.fitWidthProperty();
-        DoubleProperty height = mediaViewer.fitHeightProperty();
+       DoubleProperty height = mediaViewer.fitHeightProperty();
+
+
         //Binding them to the width and height
         //width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
         // height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
         width.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "width"));
-        height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+       height.bind(Bindings.selectDouble(mediaViewer.sceneProperty(), "height"));
+
+
     }
 
     /**
@@ -263,6 +273,10 @@ public class Controller implements Initializable {
         });
     }
 
+    /**
+     * This is for the volume adjuster
+     * @param mpl
+     */
     private void setSpecificVolume(MediaPlayer mpl){
         int sizeChanger = 100;
         slider.setValue(mpl.getVolume() * sizeChanger);
@@ -398,6 +412,10 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * This method is controlling the media entry's and creating media objects that will get iterated through and playing next video in the order
+     * @param selection
+     */
     public void runListChoice(MediaPlay selection){
 
         ArrayList<MediaPlayer> videos = new ArrayList<>();

@@ -239,7 +239,7 @@ public class ControllerSecond {
         }
     }
 
-    /**
+    /** This will move the current song you pressed one order nr down
      * @see #moveUp()
      */
     public void moveDown() {
@@ -372,6 +372,10 @@ public class ControllerSecond {
         }
     }
 
+    /**
+     *This was a code we used to open a new window if the media player was closed not in use but we have it if we wanted to implement it again
+     * @param event
+     */
     public void openPlayListManager(ActionEvent event) {
 
         try
@@ -404,23 +408,12 @@ public class ControllerSecond {
         }
 
     }
-/*
-    public void chooseMusic() {
-        tbData.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                Controller entries = new Controller();
-                tbPlaylist.getItems();
 
-                DB.selectSQL("select AbsolutePath from tblVideos where Title='" + entries.getPlaylistentries() + "");
-            }
-        });
-
-    }
- */
-
+    /**
+     * This will play a single video from the tableview containing all the current medias inside the database
+     * @param event
+     */
     @FXML
-
    public void runSingleChoice(MouseEvent event) {
 
     try {
@@ -443,6 +436,10 @@ public class ControllerSecond {
     }
     }
 
+    /**
+     * This will send the current playlist into the other controller and start playing it inside the media player window
+     * @param event
+     */
     public void runListChoice(MouseEvent event) {
         try {
             tbPlaylist.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -453,6 +450,7 @@ public class ControllerSecond {
                             MediaPlay selection = tbPlaylist.getSelectionModel().getSelectedItem();
 
                             mainController.runListChoice(selection);
+
                         }
 
                     }
@@ -464,6 +462,9 @@ public class ControllerSecond {
         }
     }
 
+    /**
+     * This will make a user able to change the category on a song
+     */
     public void addCategory(){
         MediaFile selection = tbData.getSelectionModel().getSelectedItem();
 

@@ -1,9 +1,17 @@
 .button {
     -fx-background-color: transparent;
 }
+
+
 {
-    -fx-primary: #2A2E37
-;
+}
+
+{
+
+
+    -fx-primary: #2A2E37;
+
+
 }
 
 #pauseButton{
@@ -96,6 +104,10 @@
     -fx-background-color: palegoldenrod;
     -fx-background-radius: 50% 50% 50% 0%;
     -fx-background-insets: 0;
+
+
+
+
 }
 
 

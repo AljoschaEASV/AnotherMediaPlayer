@@ -22,6 +22,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("MediaPlayer");
+        root.setId("Mediaplayvisual");
         primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.setMinWidth(600);
         primaryStage.setMinHeight(600);
