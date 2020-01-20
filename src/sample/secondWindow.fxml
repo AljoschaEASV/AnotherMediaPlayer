@@ -15,9 +15,9 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="320.0" minWidth="760.0" prefHeight="327.0" prefWidth="762.0" stylesheets="@Presentation/PlayListStyles.css" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <JFXButton fx:id="deletePlaylist" layoutX="608.0" layoutY="7.0" onAction="#deletePlaylist" prefHeight="50.0" prefWidth="50.0" text="¨," />
-        <TableView fx:id="tbData" editable="true" layoutX="14.0" layoutY="61.0" onMouseClicked="#runSingleChoice" prefHeight="253.0" prefWidth="234.0">
+        <TableView fx:id="tbData" editable="true" layoutX="14.0" layoutY="61.0" onContextMenuRequested="#addCategory" onMouseClicked="#runSingleChoice" prefHeight="253.0" prefWidth="234.0">
             <columns>
-                <TableColumn fx:id="title" prefWidth="117.0" style="-fx-background-color: transparent;" text="Title" />
+                <TableColumn fx:id="title" editable="false" prefWidth="117.0" style="-fx-background-color: transparent;" text="Title" />
                 <TableColumn fx:id="category" prefWidth="117.0" style="-fx-background-color: transparent;" text="Category" />
             </columns>
             <effect>

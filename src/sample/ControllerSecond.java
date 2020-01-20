@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,7 @@ import sample.Infrastructure.DB;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * The second controller for the playlist Viewer.
@@ -189,8 +191,11 @@ public class ControllerSecond {
         if (selection != null) {
             String OrderNo = selection.getOrderNo();
             String playlistName = selection.getPlaylist();
+            String ID;
+            DB.selectSQL("select ID from tblVideoOrder where OrderNo=" + OrderNo + " and PlaylistName='" + playlistName + "' and Video='" + selection.getTitle() + "'");
+            ID=DB.getData();
             DB.manualDisconnect();
-            DB.deleteSQL("delete from tblVideoOrder where OrderNo=" + OrderNo + " and PlaylistName='" + playlistName + "'");
+            DB.deleteSQL("delete from tblVideoOrder where ID=" + ID);
             Main.arrangeVideoOrder();
             loadPlaylist();
         }
@@ -457,5 +462,24 @@ public class ControllerSecond {
         {
             System.out.println("Error");
         }
+    }
+
+    public void addCategory(){
+        MediaFile selection = tbData.getSelectionModel().getSelectedItem();
+
+        TextInputDialog dialog = new TextInputDialog("Tran");
+
+        dialog.setTitle("Category");
+        dialog.setHeaderText("Please enter new categories");
+        dialog.setContentText("Come on do it now:");
+        Optional<String> result = dialog.showAndWait();
+
+        result.ifPresent(name -> {
+            tbData.getSelectionModel().getSelectedItem().setCategory(result.get());
+
+            DB.updateSQL("update tblVideos set Category='" + result.get() + "' where Title='" + selection.getTitle() + "'");
+            DB.manualDisconnect();
+            loadVideoList();
+        });
     }
 }
